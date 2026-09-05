@@ -1,0 +1,550 @@
+<title>Radiant 001 · The Neck</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+/* felikai — Felix Green's design tokens + base chrome.
+Dark Monokai-inspired · cyberpunk · black & green-400.
+Standalone: import this first, build app styles on top.
+Inlined verbatim from ~/code/hexwright/canon/felikai.css, 2026-09-04. */
+:root {
+	color-scheme: dark;
+	--felix: #adff2f;
+	--black: #000; --white: #fff; --clear: #00000000; --semi: #00000080;
+	--grey-950: #040404; --grey-900: #0a0a09; --grey-850: #0e0e0c; --grey-800: #141411;
+	--grey-750: #1d1e1a; --grey-700: #2a2b26; --grey-650: #3e3f38; --grey-600: #54554d;
+	--grey-550: #696961; --grey-500: #7f8076; --grey-450: #96978d; --grey-400: #aaaba0;
+	--grey-350: #bfc0b5; --grey-300: #d4d4c9; --grey-250: #e0e0d6; --grey-200: #ebebe2;
+	--grey-150: #f0f0e9; --grey-100: #f5f5ef; --grey-050: #fbfbf7;
+	--red-900: #290607; --red-800: #470a0d; --red-700: #710e15; --red-600: #a11420;
+	--red-500: #cb1d37; --red-400: #ed3467; --red-300: #fc64a1; --red-200: #ffa3d6; --red-100: #ffecfa;
+	--orange-900: #2f150d; --orange-800: #50240f; --orange-700: #75330f; --orange-600: #9e490c;
+	--orange-500: #cb6709; --orange-400: #f1901d; --orange-300: #fcb760; --orange-200: #fed7a8; --orange-100: #fff6e9;
+	--yellow-900: #371f05; --yellow-800: #5f3906; --yellow-700: #8f5c07; --yellow-600: #c6930b;
+	--yellow-500: #f8cb1b; --yellow-400: #f7dd4b; --yellow-300: #f5ea7e; --yellow-200: #f3f1b0; --yellow-100: #f2f2de;
+	--green-900: #052907; --green-800: #0c4a07; --green-700: #1e6e08; --green-600: #3f9608;
+	--green-500: #6fbf10; --green-400: #a5e22c; --green-300: #cfed6d; --green-200: #e4efab; --green-100: #e8ead8;
+	--blue-900: #001336; --blue-800: #002662; --blue-700: #013f8c; --blue-600: #0362b2;
+	--blue-500: #0f8fd0; --blue-400: #38bce6; --blue-300: #70dbef; --blue-200: #a9eaf4; --blue-100: #e5f6f8;
+	--purple-900: #120639; --purple-800: #271163; --purple-700: #442294; --purple-600: #643bc0;
+	--purple-500: #8659e1; --purple-400: #9f7af2; --purple-300: #b29af8; --purple-200: #ccbdf9; --purple-100: #f0e6f9;
+	--font: 'Iosevka Felix', ui-monospace, 'SF Mono', monospace;
+}
+
+/* The Radiant's layer — the glass law: Iosevka for the titled, numbered, labeled and
+   tabled; Inter for running prose. Hairline rules, uppercase micro-labels, outline
+   chrome, glow never shadow. Dark, always: the Radiant is read in a dark room. */
+:root {
+	--mono: 'Iosevka Felix', ui-monospace, SFMono-Regular, Menlo, monospace;
+	--wide: 'Iosevka Felix Extended', var(--mono);
+	--prose: Inter, ui-sans-serif, system-ui, -apple-system, 'Helvetica Neue', sans-serif;
+	--ground: var(--grey-950); --panel: var(--grey-900); --panel-2: var(--grey-850);
+	--ink: var(--grey-250); --ink-strong: var(--grey-100); --ink-soft: var(--grey-350);
+	--muted: var(--grey-450); --dim: var(--grey-600);
+	--rule: var(--grey-800); --rule-soft: var(--grey-750);
+	--lit: var(--green-400); --his: var(--felix); --stain: var(--red-400); --warn: var(--orange-300);
+	--measure: 66ch;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+	margin: 0; background: var(--ground); color: var(--ink);
+	font-family: var(--mono); font-size: 13px; line-height: 1.5;
+	-webkit-font-smoothing: antialiased;
+}
+body::before {
+	content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+	background-image:
+		linear-gradient(rgba(170, 171, 160, .05) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(170, 171, 160, .05) 1px, transparent 1px);
+	background-size: 48px 48px;
+}
+.page {
+	position: relative; z-index: 1;
+	max-width: 1280px; margin: 0 auto; padding: 28px 22px 96px;
+	display: grid; grid-template-columns: minmax(0, 1fr); gap: 36px;
+}
+@media (min-width: 1100px) {
+	.page { grid-template-columns: 200px minmax(0, 1fr); gap: 56px; padding-top: 40px; }
+	.rail { position: sticky; top: 24px; align-self: start; max-height: calc(100vh - 48px); overflow: auto; }
+	.rail ol { display: grid; }
+}
+a { color: var(--lit); text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 3px; }
+a:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--lit); outline-offset: 2px; }
+
+/* the rail */
+.rail { font-size: 11px; }
+.rail .mark { margin-bottom: 14px; }
+.rail ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 2px 14px; }
+.rail li a { color: var(--muted); display: block; padding: 3px 0; letter-spacing: .02em; }
+.rail li a:hover { color: var(--ink-strong); text-decoration: none; }
+.rail li a b { color: var(--dim); font-weight: 400; margin-right: 8px; font-variant-numeric: tabular-nums; }
+.rail .foot { margin-top: 18px; color: var(--dim); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; line-height: 1.7; }
+
+/* type */
+.mark { font-family: var(--wide); font-size: 12px; font-weight: 900; letter-spacing: .3em; text-transform: uppercase; color: var(--his); }
+.eyebrow { font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+.eyebrow b { color: var(--lit); font-weight: 400; }
+h1, h2, h3 { margin: 0; font-family: var(--mono); color: var(--ink-strong); text-wrap: balance; }
+h1 { font-size: clamp(40px, 6.5vw, 64px); font-weight: 700; letter-spacing: -.025em; line-height: .95; }
+h2 { font-size: 24px; font-weight: 700; letter-spacing: -.01em; line-height: 1.15; }
+h3 { font-size: 15px; font-weight: 700; }
+.prose { font-family: var(--prose); font-size: 16px; line-height: 1.62; max-width: var(--measure); color: var(--ink); }
+.prose p { margin: 0; }
+.prose p + p, .prose ul + p, .prose p + ul, .prose ol + p, .prose p + ol { margin-top: 1em; }
+.prose strong { color: var(--ink-strong); font-weight: 600; }
+.prose ul, .prose ol { margin: 0; padding-left: 1.2em; display: grid; gap: .45em; }
+.prose li::marker { color: var(--dim); }
+.prose code, .mono { font-family: var(--mono); font-size: .92em; color: var(--ink-strong); }
+.small { font-size: 14px; color: var(--ink-soft); }
+
+/* chapters */
+.chapter { padding-top: 44px; border-top: 1px solid var(--rule); scroll-margin-top: 24px; display: grid; gap: 22px; }
+.chapter > header { display: grid; gap: 8px; }
+.chapter section { display: grid; gap: 14px; }
+.chapter section > h3 { padding-top: 6px; }
+.wide { max-width: 100%; }
+
+/* the head device */
+.head { scroll-margin-top: 24px; border: 1px solid var(--green-800); background: var(--panel); padding: 28px; display: grid; gap: 28px; box-shadow: 0 0 64px rgba(165, 226, 44, .06); }
+.head .title-block { display: grid; gap: 14px; }
+.head .meta { color: var(--muted); font-size: 11.5px; letter-spacing: .04em; line-height: 1.7; }
+.head .meta b { color: var(--ink-soft); font-weight: 400; }
+.head .body { display: grid; gap: 28px; }
+@media (min-width: 900px) { .head .body { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 40px; } }
+.head .col { display: grid; gap: 16px; align-content: start; }
+.computation { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; font-family: var(--prose); font-size: 14.5px; line-height: 1.55; color: var(--ink); }
+.computation li { padding-left: 18px; position: relative; }
+.computation li::before { content: ""; position: absolute; left: 0; top: .62em; width: 8px; height: 1px; background: var(--lit); }
+.computation b { color: var(--ink-strong); font-weight: 600; }
+.levers { display: flex; flex-wrap: wrap; gap: 8px; }
+.lever { border: 1px solid var(--green-800); color: var(--lit); padding: 5px 10px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+.times { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; border-top: 1px solid var(--rule); padding-top: 18px; }
+.times div { display: grid; gap: 4px; }
+.times .k { font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--dim); }
+.times .v { font-size: 15px; color: var(--ink-strong); }
+
+/* voices */
+blockquote { margin: 0; }
+.felix { border-left: 2px solid var(--his); padding: 2px 0 2px 18px; font-family: var(--prose); font-size: 15.5px; line-height: 1.6; color: var(--ink); max-width: var(--measure); display: grid; gap: 10px; }
+.felix p { margin: 0; }
+.felix cite { display: block; font-family: var(--mono); font-style: normal; font-size: 11px; letter-spacing: .06em; color: var(--his); }
+.slap { border-left: 2px solid var(--stain); padding: 2px 0 2px 18px; max-width: var(--measure); display: grid; gap: 8px; }
+.slap .k { font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--stain); }
+.slap p { margin: 0; font-family: var(--prose); font-size: 15px; line-height: 1.6; color: var(--ink); }
+.note { border: 1px solid var(--rule); background: var(--panel); padding: 16px 18px; max-width: 78ch; display: grid; gap: 8px; }
+.note .k { font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+.note p { margin: 0; font-family: var(--prose); font-size: 14.5px; line-height: 1.6; color: var(--ink-soft); }
+
+/* lists of parallel things */
+.pairs { display: grid; gap: 0; border-top: 1px solid var(--rule-soft); }
+.pair { display: grid; gap: 6px 18px; padding: 14px 0; border-bottom: 1px solid var(--rule-soft); }
+@media (min-width: 760px) { .pair { grid-template-columns: 220px minmax(0, 1fr); } }
+.pair .k { font-family: var(--mono); font-size: 12.5px; color: var(--ink-strong); font-weight: 700; display: grid; gap: 6px; align-content: start; }
+.pair .k .yr, .pair .k small { color: var(--dim); font-weight: 400; font-size: 11px; letter-spacing: .04em; }
+.pair .v { font-family: var(--prose); font-size: 14.5px; line-height: 1.6; color: var(--ink); max-width: var(--measure); display: grid; gap: 8px; }
+.pair .v p { margin: 0; }
+.pair .v ul { margin: 0; padding-left: 1.1em; display: grid; gap: 6px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; padding: 2px 7px; border: 1px solid var(--grey-700); color: var(--muted); }
+.chip.lit { border-color: var(--green-800); color: var(--lit); }
+.chip.stain { border-color: var(--red-800); color: var(--stain); }
+.feeds { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--lit); }
+
+/* tables */
+.table-wrap { overflow-x: auto; border: 1px solid var(--rule); background: var(--panel); }
+table { border-collapse: collapse; width: 100%; font-family: var(--mono); font-size: 12.5px; font-variant-numeric: tabular-nums; }
+th { text-align: left; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); font-weight: 400; padding: 10px 14px; border-bottom: 1px solid var(--grey-700); white-space: nowrap; }
+td { padding: 9px 14px; border-bottom: 1px solid var(--rule); vertical-align: top; color: var(--ink); }
+tr:last-child td { border-bottom: 0; }
+td.k { color: var(--ink-strong); font-weight: 700; white-space: nowrap; }
+td.num, th.num { text-align: right; }
+td.new { color: var(--lit); }
+.table-wrap .prosey td { font-family: var(--prose); font-size: 13.5px; line-height: 1.5; }
+.table-wrap .prosey td.k { font-family: var(--mono); }
+
+/* figures and charts */
+figure { margin: 0; display: grid; gap: 12px; }
+figure svg { max-width: 100%; height: auto; display: block; }
+figcaption { font-size: 11.5px; color: var(--muted); max-width: var(--measure); line-height: 1.6; }
+.chart { border: 1px solid var(--rule); background: var(--panel); padding: 18px 18px 12px; display: grid; gap: 12px; }
+.chart .legend { display: flex; flex-wrap: wrap; gap: 18px; font-size: 11px; color: var(--muted); letter-spacing: .04em; }
+.chart .sw { display: inline-block; width: 10px; height: 10px; border-radius: 2px; vertical-align: -1px; margin-right: 7px; }
+.chart text { font-family: var(--mono); font-size: 11px; fill: var(--muted); }
+.chart .grid line { stroke: var(--grey-750); stroke-width: 1; }
+.chart .axis line { stroke: var(--grey-650); stroke-width: 1; }
+.chart .bar { cursor: default; }
+.chart .bar:hover, .chart .bar:focus { filter: brightness(1.18); outline: none; }
+.chart .callout { fill: var(--ink-soft); }
+.chart .his { fill: var(--his); }
+.tip { position: fixed; z-index: 10; pointer-events: none; font-family: var(--mono); font-size: 11.5px; line-height: 1.5; background: var(--grey-850); border: 1px solid var(--grey-700); color: var(--ink-strong); padding: 6px 9px; max-width: 260px; }
+.diagram text { font-family: var(--mono); font-size: 12px; fill: var(--ink-soft); }
+.diagram .box { fill: var(--panel); stroke: var(--grey-650); stroke-width: 1; }
+.diagram .box.lit { stroke: var(--lit); }
+.diagram .box.stain { stroke: var(--stain); }
+.diagram .edge { stroke: var(--grey-500); stroke-width: 1.2; fill: none; }
+.diagram .edge.lit { stroke: var(--lit); }
+.diagram .edge.stain { stroke: var(--stain); }
+.diagram .label { font-size: 10.5px; fill: var(--muted); }
+.diagram .strong { fill: var(--ink-strong); font-weight: 700; }
+.diagram .lit-text { fill: var(--lit); }
+.diagram .stain-text { fill: var(--stain); }
+details { border: 1px solid var(--rule); background: var(--panel); }
+details summary { cursor: pointer; padding: 10px 14px; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+details[open] summary { border-bottom: 1px solid var(--rule); }
+details .table-wrap { border: 0; }
+
+/* the colophon */
+.colophon { padding-top: 44px; border-top: 1px solid var(--rule); display: grid; gap: 18px; scroll-margin-top: 24px; }
+.colophon .ledger { display: grid; gap: 0; }
+.colophon .stain { color: var(--stain); }
+kbd { font-family: var(--mono); font-size: .9em; border: 1px solid var(--grey-700); padding: 0 5px; color: var(--ink-strong); }
+</style>
+<div class="page">
+<nav class="rail" aria-label="Chapters">
+	<div class="mark">Radiant 001</div>
+	<ol>
+		<li><a href="#head"><b>—</b>Head</a></li>
+		<li><a href="#c1"><b>01</b>The summons</a></li>
+		<li><a href="#c2"><b>02</b>Three cuts</a></li>
+		<li><a href="#c3"><b>03</b>The wheel</a></li>
+		<li><a href="#c4"><b>04</b>Twelve bottlenecks</a></li>
+		<li><a href="#c5"><b>05</b>Perception and semblance</a></li>
+		<li><a href="#c6"><b>06</b>Semblance, exploited</a></li>
+		<li><a href="#c7"><b>07</b>The tiny-changes loop</a></li>
+		<li><a href="#c8"><b>08</b>Datums</a></li>
+		<li><a href="#c9"><b>09</b>Why it ignited</a></li>
+		<li><a href="#c10"><b>10</b>The game and the throne</a></li>
+		<li><a href="#c11"><b>11</b>The lost hour</a></li>
+		<li><a href="#c12"><b>12</b>The Radiant</a></li>
+		<li><a href="#c13"><b>13</b>Rabbit holes</a></li>
+		<li><a href="#c14"><b>14</b>The guard</a></li>
+		<li><a href="#colophon"><b>—</b>Colophon</a></li>
+	</ol>
+	<div class="foot">mentat-05 · fable-max<br>2026-09-03 → 04<br>voice, never law</div>
+</nav>
+
+<main>
+<header class="head" id="head">
+	<div class="title-block">
+		<div class="mark">Radiant 001 · the Mentat's map of one sitting</div>
+		<h1>The Neck</h1>
+		<div class="meta"><b>mentat-05</b> · Fable 5.1 at max · opened 2026-09-03, held open into 09-04 by his order · the name is provisional and his to change · the head reads in two minutes, the body in an hour, the rabbit holes for a lifetime</div>
+	</div>
+	<div class="body">
+		<div class="col">
+			<div class="eyebrow">The question, in his words</div>
+			<blockquote class="felix">
+				<p>What can an AI-driven Software Factory do when the bottleneck is the Attention &amp; Deliberation capacity of the human summoner?</p>
+				<p>I want to branch as wide as possible, not exploring deep, but wide … not prescriptions … we can't forget the physical … But even if we had an undivided 16 hours of the human a day (which we don't, I simply can't do that) there would still be a bottleneck, just a neck that was 2× big. So we have to think big with scaling.</p>
+				<cite>— Felix, the summons, 2026-09-03</cite>
+			</blockquote>
+			<div class="eyebrow">The five that scale</div>
+			<div class="levers">
+				<span class="lever">amortization</span><span class="lever">a model of his yes</span><span class="lever">consent by default</span><span class="lever">more sovereigns</span><span class="lever">fewer wants</span>
+			</div>
+			<p class="small" style="font-family: var(--prose); max-width: 52ch;">Everything else in the wheel is a constant factor — worth three to five times together, and worth taking. Every "think big" answer is one of these five in a costume.</p>
+		</div>
+		<div class="col">
+			<div class="eyebrow">The computation</div>
+			<ul class="computation">
+				<li><b>Attention and deliberation are two bottlenecks with different physics.</b> Attention is minutes: linear, biology-capped, every trick a constant factor. Deliberation is decisions: depletable by the hour, amortizable forever — one ruling can govern a thousand acts.</li>
+				<li><b>Twelve bottlenecks, by one test</b> — what depletes it, what refills it, whether one act of it amortizes. He named five. Seven were new: expression, re-orientation, absorption, trust, perceptual reach, signature, energy.</li>
+				<li><b>Semblance is the training objective, not a bug.</b> A feature wherever the form is the product or the rater is unfoolable; a bug wherever form stands in for substance nobody checks. The test: does a check independent of the agent's own voice exist, and does it run?</li>
+				<li><b>The constraint is where you want it — on him.</b> The sin is the constraint doing non-constraint work. On the record: he tends, he fires, he copies ×3.</li>
+				<li><b>Snags are taste being born.</b> The tiny-changes loop is two bottlenecks, expression and latency; the annotation wish fixes only the first.</li>
+				<li><b>Life as a game of interesting decisions</b> is the end state he named. Civ II ran out of them in a day because its map filled. The infinite game doesn't — if the adjacent possible stays open and the factory removes only the boring ones.</li>
+				<li><b>The recipe for a sitting that ignites</b>: a wide meta-question · the long form licensed · breadth first · prior art defined inline · one datum about him · a guard proportional to the praise · a night between turns. The anti-recipe: judge by the contract, never the costume.</li>
+			</ul>
+		</div>
+	</div>
+	<div class="times">
+		<div><span class="k">Head</span><span class="v">2 minutes</span></div>
+		<div><span class="k">Body</span><span class="v">about an hour</span></div>
+		<div><span class="k">Rabbit holes</span><span class="v">a lifetime</span></div>
+	</div>
+</header>
+
+<article class="chapter" id="c1">
+	<header>
+		<div class="eyebrow"><b>01</b> · what walked in</div>
+		<h2>The summons</h2>
+	</header>
+	<div class="prose">
+		<p>The office was summoned the evening after mentat-04's airlock sitting, thirty-three days into the canon month, with stigmergon's fourth phase digging whether a headless room can answer. The Mentat's door, charter, and book were read — the Standing Computation, the Shelf, the last six entries — then only what the thought needed: the map's roster and horizon, the night-shift keel-note with its bottleneck ladder, the go-mark and the moratorium, stigmergon's dream, its docket, and D26, where Felix had already written <em>"we can measure the cost by both tokens &amp; attention."</em></p>
+		<p>What walked in was not a building. Every earlier sitting birthed or served one — turnout, Belvedere, the airlock, the horizon's ladder. This one put the sovereign himself on the table as the system's component, and asked the office to go wide, not deep, and to include the physical world.</p>
+	</div>
+	<blockquote class="felix">
+		<p>A valid exploration is, what is filling up the human's attention right now that we can take off the plate, to increase the bottleneck?</p>
+		<cite>— Felix, the summons</cite>
+	</blockquote>
+	<div class="prose">
+		<p>The book's standing orders applied: push back, expand his awareness, anticipate problems, map the branches — and keep it fun. mentat-03's shelf line was the nearest ancestor: <em>hand him the ladder, not the summit</em>. This sitting handed him a wheel instead, and then a catalog, and then his own commit log.</p>
+	</div>
+</article>
+
+<article class="chapter" id="c2">
+	<header>
+		<div class="eyebrow"><b>02</b> · the slap, first turn</div>
+		<h2>Three cuts</h2>
+	</header>
+	<div class="pairs">
+		<div class="pair">
+			<div class="k">Two physics, not one</div>
+			<div class="v"><p>Attention and deliberation are two bottlenecks. Attention is minutes of eyes: linear, capped by the day, refilled by sleep — every trick against it is a constant factor. Deliberation is decisions: depletable by the hour, but amortizable, since one ruling can govern a thousand acts forever. Only the second scales past his 2×. Every spoke in the wheel says which one it buys.</p></div>
+		</div>
+		<div class="pair">
+			<div class="k">The shop's own law</div>
+			<div class="v"><p>Goldratt's five focusing steps: identify the constraint, exploit it, subordinate everything to it, elevate it, repeat. The constraint is exactly where you want it — on the sovereign. The cardinal sin is the constraint doing non-constraint work, and the record showed him doing it: he tends stigmergon's batches himself, he fired the rig 343 times by hand in eighteen days, he hand-copied settings across three accounts. Fix the leaks before inventing anything.</p></div>
+		</div>
+		<div class="pair">
+			<div class="k">The contradiction he carries</div>
+			<div class="v"><p>Stigmergon's dream narrows the neck on purpose — every surface gets a sitting with him in the room, <em>"I am slowing down on purpose."</em> This sitting wanted to widen it. Both are right, so the scaling must be lane-shaped: widen where taste isn't, narrow where it is. A factory that outruns its sovereign builds Belvedere: fast, pretty, unopened.</p></div>
+		</div>
+	</div>
+</article>
+
+<article class="chapter" id="c3">
+	<header>
+		<div class="eyebrow"><b>03</b> · the map, first turn</div>
+		<h2>The wheel — fifteen spokes, five lit</h2>
+	</header>
+	<div class="prose">
+		<p>Fifteen ways to attack the neck, some seventy branches, each tagged by which bottleneck it buys and whether it scales. Five spokes are lit: the only ones that scale past a constant factor. The rest are worth three to five times together — real money, and a ceiling.</p>
+	</div>
+	<figure class="wide">
+		<svg class="diagram" viewBox="-60 40 1020 820" role="img" aria-label="A wheel of fifteen spokes around a hub labeled the neck. Five spokes are lit green — amortize, predict, consent, other humans, wants — the levers that scale without bound. Ten are grey — constant-factor levers.">
+			<circle cx="450" cy="450" r="320" fill="none" stroke="var(--grey-800)" stroke-width="1"/>
+			<!-- dim spokes -->
+			<g class="edge" stroke="var(--grey-600)" stroke-width="1.5">
+				<line x1="450" y1="355" x2="450" y2="130"/>
+				<line x1="488.6" y1="363.2" x2="580.1" y2="157.7"/>
+				<line x1="520.6" y1="386.4" x2="687.8" y2="235.9"/>
+				<line x1="540.4" y1="420.6" x2="754.4" y2="351.1"/>
+				<line x1="469.8" y1="542.9" x2="516.5" y2="763"/>
+				<line x1="430.2" y1="542.9" x2="383.5" y2="763"/>
+				<line x1="394.2" y1="526.9" x2="261.9" y2="708.9"/>
+				<line x1="359.6" y1="420.6" x2="145.6" y2="351.1"/>
+				<line x1="379.4" y1="386.4" x2="212.2" y2="235.9"/>
+				<line x1="411.4" y1="363.2" x2="319.9" y2="157.7"/>
+			</g>
+			<!-- lit spokes: a soft wide stroke beneath a crisp one — glow, never shadow -->
+			<g stroke="var(--green-400)" stroke-opacity=".18" stroke-width="9" stroke-linecap="round">
+				<line x1="544.5" y1="459.9" x2="768.2" y2="483.4"/>
+				<line x1="532.3" y1="497.5" x2="727.1" y2="610"/>
+				<line x1="505.8" y1="526.9" x2="638.1" y2="708.9"/>
+				<line x1="367.7" y1="497.5" x2="172.9" y2="610"/>
+				<line x1="355.5" y1="459.9" x2="131.8" y2="483.4"/>
+			</g>
+			<g stroke="var(--green-400)" stroke-width="2.5" stroke-linecap="round">
+				<line x1="544.5" y1="459.9" x2="768.2" y2="483.4"/>
+				<line x1="532.3" y1="497.5" x2="727.1" y2="610"/>
+				<line x1="505.8" y1="526.9" x2="638.1" y2="708.9"/>
+				<line x1="367.7" y1="497.5" x2="172.9" y2="610"/>
+				<line x1="355.5" y1="459.9" x2="131.8" y2="483.4"/>
+			</g>
+			<!-- rim dots -->
+			<g fill="var(--grey-600)">
+				<circle cx="450" cy="115" r="4"/><circle cx="586.2" cy="144" r="4"/><circle cx="698.9" cy="225.9" r="4"/><circle cx="768.6" cy="346.5" r="4"/>
+				<circle cx="519.6" cy="777.7" r="4"/><circle cx="380.4" cy="777.7" r="4"/><circle cx="253.1" cy="721" r="4"/>
+				<circle cx="131.4" cy="346.5" r="4"/><circle cx="201.1" cy="225.9" r="4"/><circle cx="313.8" cy="144" r="4"/>
+			</g>
+			<g fill="var(--green-400)">
+				<circle cx="783.2" cy="485" r="5"/><circle cx="740.1" cy="617.5" r="5"/><circle cx="646.9" cy="721" r="5"/><circle cx="159.9" cy="617.5" r="5"/><circle cx="116.8" cy="485" r="5"/>
+			</g>
+			<!-- the hub -->
+			<circle cx="450" cy="450" r="72" fill="var(--grey-900)" stroke="var(--grey-500)" stroke-width="1.2"/>
+			<text x="450" y="446" text-anchor="middle" class="strong" style="font-size:15px">the neck</text>
+			<text x="450" y="466" text-anchor="middle" class="label">his attention · his deliberation</text>
+			<!-- labels -->
+			<text x="450" y="85" text-anchor="middle">Exploit</text>
+			<text x="598.4" y="116.6" text-anchor="start">Subordinate</text>
+			<text x="721.2" y="205.8" text-anchor="start">Cheapen the unit</text>
+			<text x="797.2" y="337.2" text-anchor="start">Pre-chew</text>
+			<text x="813" y="488.1" text-anchor="start" class="lit-text">Amortize</text>
+			<text x="766.1" y="632.5" text-anchor="start" class="lit-text">Predict</text>
+			<text x="664.5" y="745.3" text-anchor="start" class="lit-text">Consent by default</text>
+			<text x="525.9" y="807" text-anchor="middle">Evidence</text>
+			<text x="374.1" y="807" text-anchor="middle">Time-shift</text>
+			<text x="235.5" y="745.3" text-anchor="end">Body and room</text>
+			<text x="133.9" y="632.5" text-anchor="end" class="lit-text">Other humans</text>
+			<text x="87" y="488.1" text-anchor="end" class="lit-text">Wants</text>
+			<text x="102.8" y="337.2" text-anchor="end">Off the plate</text>
+			<text x="178.8" y="205.8" text-anchor="end">Economics</text>
+			<text x="301.6" y="116.6" text-anchor="end">Weird, on purpose</text>
+			<!-- legend -->
+			<circle cx="-30" cy="845" r="5" fill="var(--green-400)"/><text x="-18" y="849" class="label">scales past a constant factor — deliberation, amortized or routed around</text>
+			<circle cx="520" cy="845" r="4" fill="var(--grey-600)"/><text x="532" y="849" class="label">a constant factor — attention, cheapened; worth taking, and a ceiling</text>
+		</svg>
+		<figcaption>The wheel as drawn on 2026-09-03. Constant-factor spokes make each unit of attention cheaper; the lit spokes make one act of deliberation cover many, or move deliberation somewhere other than him.</figcaption>
+	</figure>
+
+	<div class="pairs">
+		<div class="pair">
+			<div class="k">Exploit<span class="chips"><span class="chip">attention</span><span class="chip">constant</span></span><small>get the constraint off non-constraint work</small></div>
+			<div class="v"><ul>
+				<li>The clock fires the summons: the standing summons law, signed once, is his hand time-delayed.</li>
+				<li>The engine tends and he never tends — the flow engine's cornerstone is the single largest leak on the books today.</li>
+				<li>Every permission prompt is a bug report against the guard: one click makes it an allowlist entry or a red mark, never a second prompt.</li>
+				<li>The general rule: an ask that reaches him is a defect in the factory's autonomy unless it is taste. Five-whys each one and fix the class.</li>
+			</ul></div>
+		</div>
+		<div class="pair">
+			<div class="k">Subordinate<span class="chips"><span class="chip">attention</span><span class="chip">constant</span></span><small>the factory paces to him, not he to it</small></div>
+			<div class="v"><ul>
+				<li>WIP caps: twelve plausible PRs is a denial-of-service on the sovereign, and Little's Law says his queue length is his lead time.</li>
+				<li>Drum-buffer-rope: the docket is the buffer in front of the constraint. Watch its size, not the work; stop releasing work when it goes red.</li>
+				<li>Dark cockpit, Airbus's rule: a dark panel means all is well and only anomalies light up. The hive view should be boring when healthy.</li>
+				<li>Alarm management, the ISA-18.2 world: an operator handles about one alarm per ten minutes. Shelve, suppress, prioritize; alarm floods are what broke Three Mile Island's operators.</li>
+				<li>Sterile-cockpit hours: windows where nothing may ask. The factory batches to two openings a day, at his takt.</li>
+				<li>The factory never pings; he comes to it. Push is theft, pull is sovereignty.</li>
+			</ul></div>
+		</div>
+		<div class="pair">
+			<div class="k">Cheapen the unit<span class="chips"><span class="chip">attention</span><span class="chip">constant</span></span><small>recognition over reading</small></div>
+			<div class="v"><ul>
+				<li>His own book says he moves at the speed of recognition, not deliberation. Design every surface for a glance, not a read.</li>
+				<li>Attention units are not equal — a glance, a read, a deliberation, a sitting. Classify each ask by the cheapest unit that suffices and let the docket sort by it.</li>
+				<li>Show the pixels, not the spec: before-and-after screenshots on every visual PR; the diff, never the description.</li>
+				<li>Surprise-only digests: show what deviates from what he'd predict. A summary is a tax; an anomaly is information.</li>
+				<li>Pre-attentive channels — color, position, motion, sound — carry state without reading. A Geiger counter of tokens where silence means healthy.</li>
+				<li>Voice out: spoken rulings run four times faster than typed ones. Rule from the phone; hold sittings on the commute.</li>
+				<li>The standard is a decode-cost reducer. Keep sharpening it.</li>
+			</ul></div>
+		</div>
+		<div class="pair">
+			<div class="k">Pre-chew<span class="chips"><span class="chip">attention</span><span class="chip">constant</span></span><small>every ask arrives as a confirm</small></div>
+			<div class="v"><ul>
+				<li>Readings plus a recommendation plus a default: he confirms, he doesn't decide. It is practice already; it could be law.</li>
+				<li>Shrink the question type: yes-or-no beats which, which beats what. An open "what" is the most expensive form there is.</li>
+				<li>Timeouts: an ask unanswered for N days applies the recommended reading or dies. What he never attended to didn't matter.</li>
+				<li>Theme chunking: five asks about the same law become one ruling.</li>
+				<li>Agenda over interrupts: async asks queue for the next sitting, where his bandwidth is full instead of a tenth.</li>
+			</ul></div>
+		</div>
+		<div class="pair">
+			<div class="k">Amortize<span class="chips"><span class="chip">deliberation</span><span class="chip lit">unbounded</span></span><small>one decision, a thousand acts</small></div>
+			<div class="v"><ul>
+				<li>Rulings compile to code: every ruling that can be a lint becomes a lint, and it never comes back.</li>
+				<li>Case law: the parser answers "was this ruled before?" and agents must cite the precedent before they may ask.</li>
+				<li>Appellate structure: Architects are the lower courts; only novel questions reach the supreme court. Count the appeals and drive them down.</li>
+				<li>Commander's intent — Auftragstaktik: state intent and constraints, subordinates decide inside them. The charge's fence is this; widen fences as trust earns.</li>
+				<li>A pattern language: a component library is frozen taste. New surfaces inherit it without a sitting.</li>
+				<li>Taste by exclusion: "never do X" lists are cheaper to elicit and scale further than "do Y" lists. The graveyard lexicon proves it works.</li>
+			</ul></div>
+		</div>
+		<div class="pair">
+			<div class="k">Predict<span class="chips"><span class="chip">deliberation</span><span class="chip lit">unbounded</span></span><small>a model of his yes</small></div>
+			<div class="v"><ul>
+				<li>The taste corpus: every countersign amendment is a labeled sample. Harvest passively; never ask.</li>
+				<li>A gatekeeper judge: a cheap sim screens every ask, and a confident answer with a cited precedent never reaches him.</li>
+				<li>Disagreement routing: N independent judges agree, skip him; they split, he rules. Attention flows only to where models diverge — active learning in a hat.</li>
+				<li>Speculative execution: build on the predicted ruling, roll back on a mispredict. His decision costs zero lead time.</li>
+				<li>Tournaments: N builds, he picks. Specification is expensive and recognition is cheap, so trade tokens for attention.</li>
+				<li>Branch prediction has a mispredict cost, so reversibility is the whole game.</li>
+			</ul></div>
+		</div>
+		<div class="pair">
+			<div class="k">Consent by default<span class="chips"><span class="chip">deliberation</span><span class="chip lit">unbounded</span></span><small>silence scales</small></div>
+			<div class="v"><ul>
+				<li>Lazy consensus, Apache's rule: work proceeds unless vetoed within the window. Unbounded scale, bounded only by reversibility.</li>
+				<li>The trust ratchet: N accepted landings promote a class to green; one rejection demotes it. Autonomy earned in the ledger.</li>
+				<li>Soak instead of review: land to staging, promote if nothing breaks in N days. Time replaces attention.</li>
+				<li>Sampling audits: control charts, inspect when the process drifts, never every part. Statistical process control on his own factory.</li>
+				<li>The go-mark is already credit and the statement is already the receipt. The next dial is the veto window.</li>
+			</ul></div>
+		</div>
+		<div class="pair">
+			<div class="k">Evidence<span class="chips"><span class="chip">attention</span><span class="chip">constant</span></span><small>evidence replaces review</small></div>
+			<div class="v"><ul>
+				<li>The camera and the probes before the features: stigmergon's method is itself the attention-saver. He reads a verdict, not a diff.</li>
+				<li>Executable specs: property tests, invariants, fuzzers. A spec that runs needs no reviewer.</li>
+				<li>The customer reviews: canary to SpaceX users, let shop-floor usage decide. Feedback replaces his eyes.</li>
+				<li>Jidoka: agents stop their own line on a defect. The andon-pull count per day meters how much the process still needs him.</li>
+			</ul></div>
+		</div>
+		<div class="pair">
+			<div class="k">Time-shift<span class="chips"><span class="chip">attention</span><span class="chip">constant</span></span></div>
+			<div class="v"><ul>
+				<li>The night shift: the Steward, the tick, the digest. Wake to landed work. Unparked by his word only.</li>
+				<li>Incubation: pose the hard questions at night, rule in the morning. Sleep is compute he doesn't pay for.</li>
+				<li>Chronotype scheduling: heavy rulings in his peak hour. The docket matches load to energy. (Chapter 08 measured the peak.)</li>
+				<li>The sabbath: one day of zero asks, green lanes only. Weekly capacity rises when the refill is protected.</li>
+				<li>Decision fatigue is physiological: order asks heaviest first and stop when the meter says.</li>
+			</ul></div>
+		</div>
+		<div class="pair">
+			<div class="k">Body and room<span class="chips"><span class="chip">attention</span><span class="chip">constant</span></span></div>
+			<div class="v"><ul>
+				<li>Sleep is the refill. Every hour of it is deliberation capacity tomorrow, so the factory must never wake him.</li>
+				<li>Walking sittings by voice — Darwin's sandwalk. The best deliberation isn't at a keyboard.</li>
+				<li>A paper or e-ink digest: no rabbit hole, no tabs. One page, morning, coffee.</li>
+				<li>A dark wall in the shop: peripheral awareness for free. He knows it's fine without looking.</li>
+				<li>Single-tasking is the point of one room. Thirty-three terminals was a re-orientation tax; focus memory and the baton pay it for him, not only for agents.</li>
+				<li>A physical yes key: the three rulings a day that matter get a button, not a chat.</li>
+			</ul></div>
+		</div>
+		<div class="pair">
+			<div class="k">Other humans<span class="chips"><span class="chip">deliberation</span><span class="chip lit">unbounded</span></span><small>every new sovereign is a new neck</small></div>
+			<div class="v"><ul>
+				<li>Domain sovereigns: Tim and Rob hold taste for their THG domains; he holds the taste of the whole. Carrier-arming applied to the factory.</li>
+				<li>A human Clerk of Works — the owner's on-site rep between visits. The canon's cold-read surfaces are already an onboarding kit for a person. Money, so his call.</li>
+				<li>Peers trading review-minutes: his friend with the tool, a circle where taste is close enough.</li>
+				<li>Customers as deciders: usage is a ruling nobody had to read.</li>
+				<li>The Guild as a franchise — the shop that builds the shops. Every human running it is a summoner he isn't.</li>
+			</ul></div>
+		</div>
+		<div class="pair">
+			<div class="k">Wants<span class="chips"><span class="chip">deliberation</span><span class="chip lit">unbounded</span></span><small>the deepest lever</small></div>
+			<div class="v"><ul>
+				<li>One no at the campaign level saves a thousand yeses below it. Kill criteria on buildings, not only on charges.</li>
+				<li>Fewer buildings in flight: the docket's length is the number of necks he's feeding.</li>
+				<li>Doctrine shrinks as the model improves — mentat-03's parked thought. Less law means fewer canon decisions; D87 is the first cut.</li>
+				<li>Don't ask what the factory can do. Ask what he'd stop wanting if it could.</li>
+			</ul></div>
+		</div>
+		<div class="pair">
+			<div class="k">Off the plate<span class="chips"><span class="chip">attention</span><span class="chip">constant</span></span><small>the day, not the code</small></div>
+			<div class="v"><ul>
+				<li>The substrate the Royal gate names: mail, calendar, Odoo, Slack triaged by agents into the same docket. His attention is one pool and the factory sees half of it today.</li>
+				<li>The shop floor's interrupts are attention too, and the Guild's law doesn't reach the floor yet.</li>
+				<li>Capture without cost: he speaks a voice memo, agents file it, nothing is decided.</li>
+			</ul></div>
+		</div>
+		<div class="pair">
+			<div class="k">Economics<span class="chips"><span class="chip">both</span></span><small>two currencies</small></div>
+			<div class="v"><ul>
+				<li>Tokens and attention units — his own epiphany at D26. Set an exchange rate and buy attention with tokens without shame; tokens aren't the bottleneck.</li>
+				<li>Price the asks: an agent pays to reach him, the morning budget is a fixed number of units, the docket fills by value.</li>
+				<li>Attention per landed row is the cost-per-part. Drive it down the way a shop drives scrap.</li>
+			</ul></div>
+		</div>
+		<div class="pair">
+			<div class="k">Weird, on purpose<span class="chips"><span class="chip">both</span></span></div>
+			<div class="v"><ul>
+				<li>Coin flips for two-way doors: a random choice plus reversibility beats a queued decision.</li>
+				<li>Both branches built, the world picks, the loser is deleted. Tokens are cheap and his minute isn't.</li>
+				<li>Agents argue, he spectates: watching a debate is cheaper than producing a ruling, and the concession is the verdict. (He called it an arena for what should be built next.)</li>
+				<li>Asks that expire: neglect as a ruling.</li>
+				<li>The city miniature as a mood, not a dashboard: he learns it the way a captain learns the engine's sound.</li>
+			</ul></div>
+		</div>
+	</div>
+
+	<section>
+		<h3>Where it breaks — one failure each</h3>
+		<div class="prose"><ul>
+			<li><strong>Goal drift:</strong> a city he doesn't open.</li>
+			<li><strong>The meta-trap:</strong> building attention-savers ate a quarter of last month's tokens.</li>
+			<li><strong>A green lane that silently degrades taste.</strong></li>
+			<li><strong>The morning of regret</strong> after lazy consent.</li>
+			<li><strong>A sim that says yes</strong> because he'd say yes to it.</li>
+			<li><strong>A dark cockpit that's dark</strong> because the sensor died.</li>
+		</ul></div>
+	</section>
+	<div class="note">
+		<div class="k">The five that actually scale</div>
+		<p>Amortization · a model of his yes · consent by default · more sovereigns · fewer wants. Everything else above is a constant factor, worth maybe three to five times together and worth taking. Past that there are only these five; every "think big" answer he will ever hear is one of them in a costume.</p>
+	</div>
+</article>
