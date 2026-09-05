@@ -1264,3 +1264,63 @@ kbd { font-family: var(--mono); font-size: .9em; border: 1px solid var(--grey-70
 		</ul>
 	</div>
 </article>
+
+<footer class="colophon" id="colophon">
+	<div class="eyebrow">colophon · the capture ledger</div>
+	<h2>What this is, who drew it, where the rest went</h2>
+	<div class="prose">
+		<p>Drawn by <strong>mentat-05</strong>, Fable 5.1 at max effort, summoned 2026-09-03 with the office's interactive summons and held open into 09-04 by Felix's order. The Radiant is <strong>open</strong> — unsealed — until he closes the sitting; every edit until then is the sitting's own. The name is provisional and his. Voice, never law: nothing here blesses anything, and a claim without its evidence is a draft.</p>
+	</div>
+	<div class="note">
+		<div class="k">The summons, verbatim</div>
+		<p class="mono" style="font-family:var(--mono); white-space:pre-wrap; color:var(--ink-soft)">You are the Mentat at fable-max.
+Enter by the door — read ~/code/agents/canon/GUILD.md,
+wear ~/code/agents/canon/mantles/mentat.md,
+and think with me: What can a AI-driven Software Factory do when the bottleneck is the Attention &amp; Deliberation capacity of the human summoner?</p>
+	</div>
+	<div class="table-wrap wide"><table class="prosey ledger">
+		<thead><tr><th>Captured</th><th>Where</th><th>State</th></tr></thead>
+		<tbody>
+			<tr><td class="k">The book's entry</td><td><span class="mono">~/code/agents/SAPHO.md</span> — the mentat-05 entry, opened at his leave (<span class="mono">f5915d4</span>); the coda and the shelf line wait on the close</td><td>open</td></tr>
+			<tr><td class="k">The building</td><td><span class="mono">~/code/radiant</span> — CLAUDE.md, MAP.md (anatomy, making, recipe, index), DECISIONS.md D1–D5, ISSUES.md, LEDGER.md; founded 2026-09-04 in his repo</td><td>founded</td></tr>
+			<tr><td class="k">This page and its data</td><td><span class="mono">radiant/001-the-neck/index.html</span> · <span class="mono">data/commits.sh</span> with its four outputs; published privately as the glass — the URL rides <span class="mono">radiant/LEDGER.md</span></td><td>open</td></tr>
+			<tr><td class="k">The canon asks</td><td>agents <span class="mono">ISSUES.md</span>, 2026-09-04: the register line, the charter's <span class="mono">Owns</span>, the recipe's pointer; two taste data for the desk — the three-sentence form for asks, and charters as contracts never costumes</td><td>filed, awaiting the Grand Architect's sweep</td></tr>
+			<tr><td class="k">His asks for the room</td><td>stigmergon <span class="mono">ISSUES.md</span>, 2026-09-04: the dark cockpit as the alive view's law; annotation mode with its four cuts; an MEL for the deferred list; the unloseable draft with its two recorders</td><td>filed, awaiting the Architect's sweep</td></tr>
+		</tbody>
+	</table></div>
+	<div class="prose small">
+		<p><strong>The making.</strong> Felikai inlined verbatim from hexwright's canon on 2026-09-04; type per the glass law — Iosevka Felix for the titled, numbered, labeled and tabled, Inter for prose. The two chart hues, green-400 against red-400, pass the colorblind checks on the black ground (deutan ΔE 22.6, normal-vision 42.0, contrast above 3:1); the validator's lightness band was waived for felikai's glow — the house system outranks the method's default. Every figure is hand-drawn SVG in the page; nothing loads from anywhere but Google Fonts.</p>
+		<p>The two recorders in chapter 11 are this page's own design: the words are in the chapters; what the sitting <em>meant</em> is in the head. Lose one and the other regrows it.</p>
+	</div>
+	<div class="mark" style="margin-top: 12px;">— mentat-05 · the neck window · lips stained, the map drawn <span class="stain">🔴</span></div>
+</footer>
+</main>
+</div>
+<script>
+(function () {
+	var tip = document.createElement('div');
+	tip.className = 'tip';
+	tip.hidden = true;
+	document.body.appendChild(tip);
+	function place(x, y) {
+		var r = tip.getBoundingClientRect();
+		var left = x + 14, top = y + 14;
+		if (left + r.width > window.innerWidth - 8) left = x - r.width - 14;
+		if (top + r.height > window.innerHeight - 8) top = y - r.height - 14;
+		tip.style.left = Math.max(8, left) + 'px';
+		tip.style.top = Math.max(8, top) + 'px';
+	}
+	function show(el, x, y) { tip.textContent = el.getAttribute('data-tip'); tip.hidden = false; place(x, y); }
+	function hide() { tip.hidden = true; }
+	var marks = document.querySelectorAll('[data-tip]');
+	for (var i = 0; i < marks.length; i++) {
+		(function (el) {
+			el.addEventListener('mouseenter', function (e) { show(el, e.clientX, e.clientY); });
+			el.addEventListener('mousemove', function (e) { place(e.clientX, e.clientY); });
+			el.addEventListener('mouseleave', hide);
+			el.addEventListener('focus', function () { var b = el.getBoundingClientRect(); show(el, b.left + b.width / 2, b.top - 8); });
+			el.addEventListener('blur', hide);
+		})(marks[i]);
+	}
+})();
+</script>
