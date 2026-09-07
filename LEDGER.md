@@ -18,3 +18,12 @@ nothing blessed — D1–D5 proposed, his ⬡✓ owed. Next: the sitting is open
 the close: seal 001 (hard law 2), the book's coda and shelf line, this ledger's line; the
 Grand Architect sweeps the founding entry and rules the register line and the charter's
 *Owns*.
+
+---
+
+**2026-09-06 · Mentat · fable-max (mentat-05, the close)** — Radiant 001 **sealed** at his
+word (hard law 2); D1–D5 ⬡✓ 2026-09-06 (*"D1-5 blessed"*); law 5 — show, don't describe —
+added to `CLAUDE.md`; the colophon carries the close and the anti-recipe's evidence (the
+snag list built into stigmergon; the co-design sitting he tuned in DevTools). `ISSUES.md`
+holds his wish: the Radiant read aloud. Decided: D1–D5 blessed. Next: none — the building
+rests until a sitting earns a map; the register line waits on the Grand Architect's sweep.
