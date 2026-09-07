@@ -24,7 +24,10 @@ and the index. The tail of `LEDGER.md` says where we are; blessed choices live i
 4. **Self-contained and reproducible.** One `index.html` per Radiant, no build step,
    no network but Google Fonts for Inter. Every number about Felix ships with the
    script that produced it, in `data/` beside the page.
-5. **Two readers, three depths.** The head reads in two minutes, the body in an
+5. **Show, don't describe.** Felix has aphantasia — he cannot preview images mentally
+   (hexwright's law 5). A Radiant renders the mechanism; it never asks him to imagine
+   one, and a figure beats a paragraph that describes a figure.
+6. **Two readers, three depths.** The head reads in two minutes, the body in an
    hour, the rabbit holes for a lifetime. A Radiant that only does the third has
    failed the first two.
 
