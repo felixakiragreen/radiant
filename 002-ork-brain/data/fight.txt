@@ -1,0 +1,21 @@
+## 4x4 melee · row charges column · exact P(kill) P(die) E[att W left] E[def W left] · det att W, def W
+attacker	Marine chainsword 5/3+/4/5 W14	Necron bayonet 4/3+/3/4 W10	Ork choppa 4/3+/4/5 W10	Aeldari power weapon 4/3+/4/6 Lethal W8
+Marine chainsword 5/3+/4/5 W14	9% 7% 4.2 4.0 | det 1 1	30% 0% 9.0 0.9 | det 8 2	30% 2% 7.6 1.1 | det 6 2	81% 2% 8.2 0.8 | det 8 0
+Necron bayonet 4/3+/3/4 W10	0% 19% 1.2 9.1 | det 2 8	10% 4% 3.9 3.8 | det 4 4	10% 9% 2.6 4.3 | det 2 4	7% 39% 2.9 3.1 | det 4 5
+Ork choppa 4/3+/4/5 W10	5% 19% 1.3 7.5 | det 2 6	13% 4% 4.5 2.7 | det 4 2	13% 9% 3.3 3.2 | det 2 2	62% 18% 3.7 1.6 | det 4 0
+Aeldari power weapon 4/3+/4/6 Lethal W8	4% 53% 1.8 6.5 | det 4 8	64% 5% 3.9 1.8 | det 4 0	64% 16% 3.3 1.9 | det 3 0	64% 16% 2.4 0.9 | det 2 -2
+hits used (normal,crit): {'Marine': (2, 1), 'Necron': (2, 1), 'Ork': (2, 1), 'Aeldari': (1, 2)}
+
+## symmetric fights, exact vs deterministic
+Kommando Boy Choppa 4/3+/4/5 W10	att kills 13%	att dies 9%	E W left 3.3 3.2	det 2 2
+Assault Intercessor Warrior Chainsword 5/3+/4/5 W14	att kills 9%	att dies 7%	E W left 4.2 4.0	det 1 1
+Voidscarred Warrior Power Weapon 4/3+/4/6 W8	att kills 64%	att dies 16%	E W left 2.4 0.9	det 2 -2
+Immortal Guardian Bayonet 4/3+/3/4 W10	att kills 10%	att dies 4%	E W left 3.9 3.8	det 4 4
+Breaka Boy Fighter Smash Hammer 4/3+/5/6 W12	att kills 38%	att dies 25%	E W left 2.1 1.2	det 2 2
+
+## the line the deterministic fight plays: Marine chainsword charges Ork choppa
+Marine	strike normal 4	Marine 14W	Ork 6W
+Ork	strike normal 4	Marine 10W	Ork 6W
+Marine	strike normal 4	Marine 10W	Ork 2W
+Ork	block the crit with the crit	Marine 10W	Ork 2W
+Ork	strike normal 4	Marine 6W	Ork 2W

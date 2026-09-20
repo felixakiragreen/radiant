@@ -111,6 +111,7 @@ generator — instantiate `board.md` from the templates then, and not before.
 | ID | Radiant | Sitting | Office | The computation |
 |---|---|---|---|---|
 | 001 | [The Neck](001-the-neck/index.html) | 2026-09-03 → 04 | mentat-05 · fable-max | only five levers scale past a constant factor — amortization, a model of his yes, consent by default, more sovereigns, fewer wants; semblance is the training objective, a feature wherever the rater is unfoolable |
+| 002 | [Ork Brain](002-ork-brain/index.html) | 2026-09-19 | mentat-09 · fable-max | subtracting averages is not averaging the game — the convexity gap is where weak guns hurt heavy armour, and every subtractive scheme has dead cells until it floors; precision costs one arithmetic step per rung, and the printed rounded expectation is the only rung under half a wound of error; cover is never a whole save |
 
 ## 9. Done when — v1
 

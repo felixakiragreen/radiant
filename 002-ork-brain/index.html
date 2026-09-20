@@ -1,0 +1,759 @@
+<title>Radiant 002 · Ork Brain</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+/* felikai — Felix Green's design tokens + base chrome.
+Dark Monokai-inspired · cyberpunk · black & green-400.
+Standalone: import this first, build app styles on top.
+Inlined verbatim from ~/code/hexwright/canon/felikai.css, 2026-09-04. */
+:root {
+	color-scheme: dark;
+	--felix: #adff2f;
+	--black: #000; --white: #fff; --clear: #00000000; --semi: #00000080;
+	--grey-950: #040404; --grey-900: #0a0a09; --grey-850: #0e0e0c; --grey-800: #141411;
+	--grey-750: #1d1e1a; --grey-700: #2a2b26; --grey-650: #3e3f38; --grey-600: #54554d;
+	--grey-550: #696961; --grey-500: #7f8076; --grey-450: #96978d; --grey-400: #aaaba0;
+	--grey-350: #bfc0b5; --grey-300: #d4d4c9; --grey-250: #e0e0d6; --grey-200: #ebebe2;
+	--grey-150: #f0f0e9; --grey-100: #f5f5ef; --grey-050: #fbfbf7;
+	--red-900: #290607; --red-800: #470a0d; --red-700: #710e15; --red-600: #a11420;
+	--red-500: #cb1d37; --red-400: #ed3467; --red-300: #fc64a1; --red-200: #ffa3d6; --red-100: #ffecfa;
+	--orange-900: #2f150d; --orange-800: #50240f; --orange-700: #75330f; --orange-600: #9e490c;
+	--orange-500: #cb6709; --orange-400: #f1901d; --orange-300: #fcb760; --orange-200: #fed7a8; --orange-100: #fff6e9;
+	--yellow-900: #371f05; --yellow-800: #5f3906; --yellow-700: #8f5c07; --yellow-600: #c6930b;
+	--yellow-500: #f8cb1b; --yellow-400: #f7dd4b; --yellow-300: #f5ea7e; --yellow-200: #f3f1b0; --yellow-100: #f2f2de;
+	--green-900: #052907; --green-800: #0c4a07; --green-700: #1e6e08; --green-600: #3f9608;
+	--green-500: #6fbf10; --green-400: #a5e22c; --green-300: #cfed6d; --green-200: #e4efab; --green-100: #e8ead8;
+	--blue-900: #001336; --blue-800: #002662; --blue-700: #013f8c; --blue-600: #0362b2;
+	--blue-500: #0f8fd0; --blue-400: #38bce6; --blue-300: #70dbef; --blue-200: #a9eaf4; --blue-100: #e5f6f8;
+	--purple-900: #120639; --purple-800: #271163; --purple-700: #442294; --purple-600: #643bc0;
+	--purple-500: #8659e1; --purple-400: #9f7af2; --purple-300: #b29af8; --purple-200: #ccbdf9; --purple-100: #f0e6f9;
+	--font: 'Iosevka Felix', ui-monospace, 'SF Mono', monospace;
+}
+
+/* The Radiant's layer — the glass law: Iosevka for the titled, numbered, labeled and
+   tabled; Inter for running prose. Hairline rules, uppercase micro-labels, outline
+   chrome, glow never shadow. Dark, always: the Radiant is read in a dark room. */
+:root {
+	--mono: 'Iosevka Felix', ui-monospace, SFMono-Regular, Menlo, monospace;
+	--wide: 'Iosevka Felix Extended', var(--mono);
+	--prose: Inter, ui-sans-serif, system-ui, -apple-system, 'Helvetica Neue', sans-serif;
+	--ground: var(--grey-950); --panel: var(--grey-900); --panel-2: var(--grey-850);
+	--ink: var(--grey-250); --ink-strong: var(--grey-100); --ink-soft: var(--grey-350);
+	--muted: var(--grey-450); --dim: var(--grey-600);
+	--rule: var(--grey-800); --rule-soft: var(--grey-750);
+	--lit: var(--green-400); --his: var(--felix); --stain: var(--red-400); --warn: var(--orange-300);
+	--measure: 66ch;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+	margin: 0; background: var(--ground); color: var(--ink);
+	font-family: var(--mono); font-size: 13px; line-height: 1.5;
+	-webkit-font-smoothing: antialiased;
+}
+body::before {
+	content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+	background-image:
+		linear-gradient(rgba(170, 171, 160, .05) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(170, 171, 160, .05) 1px, transparent 1px);
+	background-size: 48px 48px;
+}
+.page {
+	position: relative; z-index: 1;
+	max-width: 1280px; margin: 0 auto; padding: 28px 22px 96px;
+	display: grid; grid-template-columns: minmax(0, 1fr); gap: 36px;
+}
+@media (min-width: 1100px) {
+	.page { grid-template-columns: 200px minmax(0, 1fr); gap: 56px; padding-top: 40px; }
+	.rail { position: sticky; top: 24px; align-self: start; max-height: calc(100vh - 48px); overflow: auto; }
+	.rail ol { display: grid; }
+}
+a { color: var(--lit); text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 3px; }
+a:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--lit); outline-offset: 2px; }
+
+/* the rail */
+.rail { font-size: 11px; }
+.rail .mark { margin-bottom: 14px; }
+.rail ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 2px 14px; }
+.rail li a { color: var(--muted); display: block; padding: 3px 0; letter-spacing: .02em; }
+.rail li a:hover { color: var(--ink-strong); text-decoration: none; }
+.rail li a b { color: var(--dim); font-weight: 400; margin-right: 8px; font-variant-numeric: tabular-nums; }
+.rail .foot { margin-top: 18px; color: var(--dim); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; line-height: 1.7; }
+
+/* type */
+.mark { font-family: var(--wide); font-size: 12px; font-weight: 900; letter-spacing: .3em; text-transform: uppercase; color: var(--his); }
+.eyebrow { font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+.eyebrow b { color: var(--lit); font-weight: 400; }
+h1, h2, h3 { margin: 0; font-family: var(--mono); color: var(--ink-strong); text-wrap: balance; }
+h1 { font-size: clamp(40px, 6.5vw, 64px); font-weight: 700; letter-spacing: -.025em; line-height: .95; }
+h2 { font-size: 24px; font-weight: 700; letter-spacing: -.01em; line-height: 1.15; }
+h3 { font-size: 15px; font-weight: 700; }
+.prose { font-family: var(--prose); font-size: 16px; line-height: 1.62; max-width: var(--measure); color: var(--ink); }
+.prose p { margin: 0; }
+.prose p + p, .prose ul + p, .prose p + ul, .prose ol + p, .prose p + ol { margin-top: 1em; }
+.prose strong { color: var(--ink-strong); font-weight: 600; }
+.prose ul, .prose ol { margin: 0; padding-left: 1.2em; display: grid; gap: .45em; }
+.prose li::marker { color: var(--dim); }
+.prose code, .mono { font-family: var(--mono); font-size: .92em; color: var(--ink-strong); }
+.small { font-size: 14px; color: var(--ink-soft); }
+
+/* chapters */
+.chapter { padding-top: 44px; border-top: 1px solid var(--rule); scroll-margin-top: 24px; display: grid; gap: 22px; }
+.chapter > header { display: grid; gap: 8px; }
+.chapter section { display: grid; gap: 14px; }
+.chapter section > h3 { padding-top: 6px; }
+.wide { max-width: 100%; }
+
+/* the head device */
+.head { scroll-margin-top: 24px; border: 1px solid var(--green-800); background: var(--panel); padding: 28px; display: grid; gap: 28px; box-shadow: 0 0 64px rgba(165, 226, 44, .06); }
+.head .title-block { display: grid; gap: 14px; }
+.head .meta { color: var(--muted); font-size: 11.5px; letter-spacing: .04em; line-height: 1.7; }
+.head .meta b { color: var(--ink-soft); font-weight: 400; }
+.head .body { display: grid; gap: 28px; }
+@media (min-width: 900px) { .head .body { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 40px; } }
+.head .col { display: grid; gap: 16px; align-content: start; }
+.computation { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; font-family: var(--prose); font-size: 14.5px; line-height: 1.55; color: var(--ink); }
+.computation li { padding-left: 18px; position: relative; }
+.computation li::before { content: ""; position: absolute; left: 0; top: .62em; width: 8px; height: 1px; background: var(--lit); }
+.computation b { color: var(--ink-strong); font-weight: 600; }
+.levers { display: flex; flex-wrap: wrap; gap: 8px; }
+.lever { border: 1px solid var(--green-800); color: var(--lit); padding: 5px 10px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+.times { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; border-top: 1px solid var(--rule); padding-top: 18px; }
+.times div { display: grid; gap: 4px; }
+.times .k { font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--dim); }
+.times .v { font-size: 15px; color: var(--ink-strong); }
+
+/* voices */
+blockquote { margin: 0; }
+.felix { border-left: 2px solid var(--his); padding: 2px 0 2px 18px; font-family: var(--prose); font-size: 15.5px; line-height: 1.6; color: var(--ink); max-width: var(--measure); display: grid; gap: 10px; }
+.felix p { margin: 0; }
+.felix cite { display: block; font-family: var(--mono); font-style: normal; font-size: 11px; letter-spacing: .06em; color: var(--his); }
+.slap { border-left: 2px solid var(--stain); padding: 2px 0 2px 18px; max-width: var(--measure); display: grid; gap: 8px; }
+.slap .k { font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--stain); }
+.slap p { margin: 0; font-family: var(--prose); font-size: 15px; line-height: 1.6; color: var(--ink); }
+.note { border: 1px solid var(--rule); background: var(--panel); padding: 16px 18px; max-width: 78ch; display: grid; gap: 8px; }
+.note .k { font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+.note p { margin: 0; font-family: var(--prose); font-size: 14.5px; line-height: 1.6; color: var(--ink-soft); }
+
+/* lists of parallel things */
+.pairs { display: grid; gap: 0; border-top: 1px solid var(--rule-soft); }
+.pair { display: grid; gap: 6px 18px; padding: 14px 0; border-bottom: 1px solid var(--rule-soft); }
+@media (min-width: 760px) { .pair { grid-template-columns: 220px minmax(0, 1fr); } }
+.pair .k { font-family: var(--mono); font-size: 12.5px; color: var(--ink-strong); font-weight: 700; display: grid; gap: 6px; align-content: start; }
+.pair .k .yr, .pair .k small { color: var(--dim); font-weight: 400; font-size: 11px; letter-spacing: .04em; }
+.pair .v { font-family: var(--prose); font-size: 14.5px; line-height: 1.6; color: var(--ink); max-width: var(--measure); display: grid; gap: 8px; }
+.pair .v p { margin: 0; }
+.pair .v ul { margin: 0; padding-left: 1.1em; display: grid; gap: 6px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; padding: 2px 7px; border: 1px solid var(--grey-700); color: var(--muted); }
+.chip.lit { border-color: var(--green-800); color: var(--lit); }
+.chip.stain { border-color: var(--red-800); color: var(--stain); }
+.feeds { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--lit); }
+
+/* tables */
+.table-wrap { overflow-x: auto; border: 1px solid var(--rule); background: var(--panel); }
+table { border-collapse: collapse; width: 100%; font-family: var(--mono); font-size: 12.5px; font-variant-numeric: tabular-nums; }
+th { text-align: left; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); font-weight: 400; padding: 10px 14px; border-bottom: 1px solid var(--grey-700); white-space: nowrap; }
+td { padding: 9px 14px; border-bottom: 1px solid var(--rule); vertical-align: top; color: var(--ink); }
+tr:last-child td { border-bottom: 0; }
+td.k { color: var(--ink-strong); font-weight: 700; white-space: nowrap; }
+td.num, th.num { text-align: right; }
+td.new { color: var(--lit); }
+.table-wrap .prosey td { font-family: var(--prose); font-size: 13.5px; line-height: 1.5; }
+.table-wrap .prosey td.k { font-family: var(--mono); }
+
+/* figures and charts */
+figure { margin: 0; display: grid; gap: 12px; }
+figure svg { max-width: 100%; height: auto; display: block; }
+figcaption { font-size: 11.5px; color: var(--muted); max-width: var(--measure); line-height: 1.6; }
+.chart { border: 1px solid var(--rule); background: var(--panel); padding: 18px 18px 12px; display: grid; gap: 12px; }
+.chart .legend { display: flex; flex-wrap: wrap; gap: 18px; font-size: 11px; color: var(--muted); letter-spacing: .04em; }
+.chart .sw { display: inline-block; width: 10px; height: 10px; border-radius: 2px; vertical-align: -1px; margin-right: 7px; }
+.chart text { font-family: var(--mono); font-size: 11px; fill: var(--muted); }
+.chart .grid line { stroke: var(--grey-750); stroke-width: 1; }
+.chart .axis line { stroke: var(--grey-650); stroke-width: 1; }
+.chart .bar { cursor: default; }
+.chart .bar:hover, .chart .bar:focus { filter: brightness(1.18); outline: none; }
+.chart .callout { fill: var(--ink-soft); }
+.chart .his { fill: var(--his); }
+.tip { position: fixed; z-index: 10; pointer-events: none; font-family: var(--mono); font-size: 11.5px; line-height: 1.5; background: var(--grey-850); border: 1px solid var(--grey-700); color: var(--ink-strong); padding: 6px 9px; max-width: 260px; }
+.diagram text { font-family: var(--mono); font-size: 12px; fill: var(--ink-soft); }
+.diagram .box { fill: var(--panel); stroke: var(--grey-650); stroke-width: 1; }
+.diagram .box.lit { stroke: var(--lit); }
+.diagram .box.stain { stroke: var(--stain); }
+.diagram .edge { stroke: var(--grey-500); stroke-width: 1.2; fill: none; }
+.diagram .edge.lit { stroke: var(--lit); }
+.diagram .edge.stain { stroke: var(--stain); }
+.diagram .label { font-size: 10.5px; fill: var(--muted); }
+.diagram .strong { fill: var(--ink-strong); font-weight: 700; }
+.diagram .lit-text { fill: var(--lit); }
+.diagram .stain-text { fill: var(--stain); }
+details { border: 1px solid var(--rule); background: var(--panel); }
+details summary { cursor: pointer; padding: 10px 14px; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+details[open] summary { border-bottom: 1px solid var(--rule); }
+details .table-wrap { border: 0; }
+
+/* the colophon */
+.colophon { padding-top: 44px; border-top: 1px solid var(--rule); display: grid; gap: 18px; scroll-margin-top: 24px; }
+.colophon .ledger { display: grid; gap: 0; }
+.colophon .stain { color: var(--stain); }
+kbd { font-family: var(--mono); font-size: .9em; border: 1px solid var(--grey-700); padding: 0 5px; color: var(--ink-strong); }
+</style>
+<div class="page">
+<nav class="rail" aria-label="Chapters">
+	<div class="mark">Radiant 002</div>
+	<ol>
+		<li><a href="#head"><b>—</b>Head</a></li>
+		<li><a href="#c1"><b>01</b>The summons</a></li>
+		<li><a href="#c2"><b>02</b>The dice, as numbers</a></li>
+		<li><a href="#c3"><b>03</b>The convexity gap</a></li>
+		<li><a href="#c4"><b>04</b>The ladder of schemes</a></li>
+		<li><a href="#c5"><b>05</b>Keywords, weighed</a></li>
+		<li><a href="#c6"><b>06</b>Cover</a></li>
+		<li><a href="#c7"><b>07</b>Four factions</a></li>
+		<li><a href="#c8"><b>08</b>Melee</a></li>
+		<li><a href="#c9"><b>09</b>Datums</a></li>
+		<li><a href="#c10"><b>10</b>The five forks</a></li>
+		<li><a href="#c11"><b>11</b>The wider map</a></li>
+		<li><a href="#c12"><b>12</b>Rabbit holes</a></li>
+		<li><a href="#c13"><b>13</b>The guard</a></li>
+		<li><a href="#colophon"><b>—</b>Colophon</a></li>
+	</ol>
+	<div class="foot">mentat-09 · fable-max<br>2026-09-19<br>voice, never law</div>
+</nav>
+
+<main>
+<header class="head" id="head">
+	<div class="title-block">
+		<div class="mark">Radiant 002 · the Mentat's map of one sitting</div>
+		<h1>Ork Brain</h1>
+		<div class="meta"><b>mentat-09</b> · Fable 5.1 at max · opened 2026-09-19 while he meditated at the Swordmaster's word · open — seals at his word · the name is provisional and his to change · the head reads in two minutes, the body in an hour, the rabbit holes for a lifetime</div>
+	</div>
+	<div class="body">
+		<div class="col">
+			<div class="eyebrow">The question, in his words</div>
+			<blockquote class="felix">
+				<p>Me can't long word. Rules much long word brain hurt. Dice make brain cry.</p>
+				<p>Hone in on JUST the formalization, engines, and mechanics of how Ork Brain Kill Team works. Yes, every move can be pre-calculated, like a melee fight or shot. But we want to make the calculation pretty simple and straightforward. Let's explore various mechanics of additions and subtractions of values.</p>
+				<cite>— Felix, the summons and its second turn, 2026-09-19</cite>
+			</blockquote>
+			<div class="eyebrow">The five forks the mechanics leave open</div>
+			<div class="levers">
+				<span class="lever">which rung</span><span class="lever">floor or no floor</span><span class="lever">one hit is a crit</span><span class="lever">cover: armour +1 or damage −2</span><span class="lever">melee with blocks</span>
+			</div>
+			<p class="small" style="font-family: var(--prose); max-width: 52ch;">None of the five is the office's to pick. Every scheme below is a measurement of a choice, not a recommendation; the game stays his.</p>
+		</div>
+		<div class="col">
+			<div class="eyebrow">The computation</div>
+			<ul class="computation">
+				<li><b>The dice are two small tables.</b> Expected hits are ATK × (7 − HIT) / 6, twelve cells. Expected saves are (7 − SAVE) / 2, three cells for the three saves the seven teams use. Crits are ATK / 6. Cover is a third to two-thirds of a save, never one.</li>
+				<li><b>Subtracting averages is not averaging the game.</b> KT floors hits-minus-saves at zero on every roll and then averages; a formula averages first. The gap is where weak guns hurt heavy armour: a slugga into a Marine is 2 − 2 = 0 by formula and 2.18 in truth. The dice were doing convexity work; a diceless design does it on purpose or not at all.</li>
+				<li><b>Precision costs one arithmetic step per rung.</b> A printed card row misses by 0.27 damage. Half-hit units or a save fraction miss by about 1 and need a halving or a fraction. Whole hits miss by 1.4. The formula as written misses by 10.</li>
+				<li><b>Keywords: plus one damage after the multiply</b> has zero bias. Inside the multiply it is plus ATK. Two tiers suffice: plus 2 for Piercing, Devastating, Relentless.</li>
+				<li><b>Cover as a whole save kills the game</b> — 324 dead cells of 584. Cover is worth minus 2 damage, or plus one half-save.</li>
+				<li><b>The four factions bend differently.</b> Necrons are flattered, Orks are robbed of the variance that was their damage, Aeldari are the half-save problem incarnate, and Marines are what the floor exists for.</li>
+				<li><b>Melee keeps its one decision.</b> Rounded hits plus KT's own strike-or-block sequence is a perfect-information mini-game. Where dice gave 60 to 80 percent, it gives certainty; where they gave 5 to 30, a wounded survivor. "Back and forth until die" throws the decision away.</li>
+			</ul>
+		</div>
+	</div>
+	<div class="times">
+		<div><span class="k">Head</span><span class="v">2 minutes</span></div>
+		<div><span class="k">Body</span><span class="v">about an hour</span></div>
+		<div><span class="k">Rabbit holes</span><span class="v">a lifetime</span></div>
+	</div>
+</header>
+
+<article class="chapter" id="c1">
+	<header>
+		<div class="eyebrow"><b>01</b> · what walked in, and the fence around it</div>
+		<h2>The summons</h2>
+	</header>
+	<div class="prose">
+		<p>He came in with a dream he had deliberated for days, and a fence he wrote three times: Futuristic, Deliberative, Ideation — <em>do not activate</em>. His theory, stated as a theory: the current generation of AI are Activators because they were trained as assistants, and every time he opens dream-space they hand him a plan for how to do it now. The office's charter licenses the fence in one line, <em>an exploration may simply end</em>, and this Radiant is the record of one that did not end in a plan.</p>
+		<p>The dream, in three chapters. Chapter one is the game, and it is his crafted text, kept verbatim:</p>
+	</div>
+	<blockquote class="felix">
+		<p><strong>How To Shoot.</strong> Add up normal damage (if any keyword says critical, use crit damage), each keyword adds +1, × attack = Final damage. Minus their save stat + movement. Wounds = Added − subtracted. That's it. The whole game.</p>
+		<p><strong>Okay, what about Fight?</strong> Do same thing but use melee weapon, back forth until die.</p>
+		<p><strong>Can you shoot?</strong> Draw line yes. Small thing in way, no obscure. Shoot down, no obscure (up yes). Big thing in way, obscure. Obscure half damage. <strong>All distance measure straight line:</strong> nothing in way, no minus; small thing, minus 1; big thing, minus 2; elevation, minus 3. <strong>What about long rule ability?</strong> Figure out Ork Brain version. That now the fun game collab part. Both player must agree on fuckery.</p>
+		<cite>— Felix, Ork Brain Kill Team, chapter 1</cite>
+	</blockquote>
+	<div class="prose">
+		<p>Chapter two was the master plan — play with C, then Kurt and James, iron out every team, a Typst card set laser-cut by his hand, the Indy League at Game Preserve, then free rules, free match-keeping, a free league and tournament, stats on every game, a Discord. Chapter three came to him breathing: Elo on every player and every team, so the mathematically best and worst team become known facts; everything on GitHub, the Green Guild's first public repo, vibe-coded and documented in Ork Brain language, passkey-only.</p>
+		<p>The first turn mapped twenty-four branches across the table, the community and the horizon (chapter 11). He read it and ruled: not Matakipa, not how to make it real, not the legal branch. <em>Hone in on JUST the formalization, engines, and mechanics.</em> Kill Team third edition only, 2024 and 2025. The rest of this Radiant is that narrowing, run on his own data.</p>
+	</div>
+</article>
+
+<article class="chapter" id="c2">
+	<header>
+		<div class="eyebrow"><b>02</b> · the formal core of KT24 shooting</div>
+		<h2>The dice, as numbers</h2>
+	</header>
+	<div class="prose">
+		<p>The weapon space is smaller than it feels at the table. Across the seven teams he plays against — Angels of Death, Hierotek Circle, Kommandos, Wrecka Krew, Corsair Voidscarred, Void-Dancer Troupe, Blades of Khaine — there are 73 distinct ranged profiles. Fifty are ATK 4. Forty-eight are HIT 3+. Saves are 3+, 4+ or 5+ and nothing else. The whole probabilistic core of a shot is one pipeline, and every stage has a closed-form expectation.</p>
+	</div>
+	<figure class="diagram wide">
+		<svg viewBox="0 0 960 190" role="img" aria-label="The KT24 shoot sequence as a pipeline of five boxes: attack dice, the hit threshold, the defender's three dice, blocking, damage. Under each box its expectation.">
+			<g>
+				<rect class="box lit" x="16" y="30" width="160" height="62"/><text class="strong" x="96" y="56" text-anchor="middle">ATK dice</text><text class="label" x="96" y="76" text-anchor="middle">4, 5 or 6 of them</text>
+				<path class="edge" d="M176 61 H206"/><path class="edge" d="M200 56 L206 61 L200 66"/>
+				<rect class="box lit" x="208" y="30" width="160" height="62"/><text class="strong" x="288" y="56" text-anchor="middle">≥ HIT keeps</text><text class="label" x="288" y="76" text-anchor="middle">a 6 is a crit</text>
+				<path class="edge" d="M368 61 H398"/><path class="edge" d="M392 56 L398 61 L392 66"/>
+				<rect class="box stain" x="400" y="30" width="160" height="62"/><text class="strong" x="480" y="56" text-anchor="middle">3 defence dice</text><text class="label" x="480" y="76" text-anchor="middle">≥ SAVE keeps · cover: one kept free</text>
+				<path class="edge" d="M560 61 H590"/><path class="edge" d="M584 56 L590 61 L584 66"/>
+				<rect class="box stain" x="592" y="30" width="160" height="62"/><text class="strong" x="672" y="56" text-anchor="middle">block</text><text class="label" x="672" y="76" text-anchor="middle">normal ↔ normal · 2 normals ↔ crit · crit ↔ any</text>
+				<path class="edge" d="M752 61 H782"/><path class="edge" d="M776 56 L782 61 L776 66"/>
+				<rect class="box" x="784" y="30" width="160" height="62"/><text class="strong" x="864" y="56" text-anchor="middle">damage</text><text class="label" x="864" y="76" text-anchor="middle">normals × Dn + crits × Dc</text>
+			</g>
+			<g>
+				<text class="lit-text" x="96" y="128" text-anchor="middle">E[hits] = ATK·(7−HIT)/6</text>
+				<text class="lit-text" x="288" y="128" text-anchor="middle">E[crits] = ATK/6</text>
+				<text class="stain-text" x="480" y="128" text-anchor="middle">E[saves] = (7−SAVE)/2</text>
+				<text class="stain-text" x="672" y="128" text-anchor="middle">E[crit saves] = ½</text>
+				<text x="864" y="128" text-anchor="middle">E[damage] ≠ the formula →</text>
+				<text class="label" x="480" y="160" text-anchor="middle">Lethal 5+ doubles the crits · Piercing removes a defence die · Brutal lets only crit saves block · Devastating pays x per crit before blocking</text>
+			</g>
+		</svg>
+		<figcaption>The shoot sequence of the March 2025 rulebook, with each stage's expectation. The last box carries the whole problem: expected damage is not what the formula of expectations gives, because blocking floors at zero on every roll (chapter 3).</figcaption>
+	</figure>
+	<section>
+		<h3>The hit table</h3>
+		<div class="table-wrap" style="max-width: 720px;"><table>
+			<thead><tr><th>expected hits</th><th class="num">2+</th><th class="num">3+</th><th class="num">4+</th><th class="num">5+</th></tr></thead>
+			<tbody>
+				<tr><td class="k">ATK 4 · 50 profiles</td><td class="num">3.33</td><td class="num">2.67</td><td class="num">2.00</td><td class="num">1.33</td></tr>
+				<tr><td class="k">ATK 5 · 11 profiles</td><td class="num">4.17</td><td class="num">3.33</td><td class="num">2.50</td><td class="num">1.67</td></tr>
+				<tr><td class="k">ATK 6 · 12 profiles</td><td class="num">5.00</td><td class="num">4.00</td><td class="num">3.00</td><td class="num">2.00</td></tr>
+			</tbody>
+		</table></div>
+	</section>
+	<section>
+		<h3>The save table</h3>
+		<div class="table-wrap" style="max-width: 720px;"><table>
+			<thead><tr><th>save</th><th>who</th><th class="num">expected saves, open</th><th class="num">in cover</th><th class="num">cover is worth</th></tr></thead>
+			<tbody>
+				<tr><td class="k">3+</td><td>Marines, Necrons, Aeldari exarchs</td><td class="num">2.00</td><td class="num">2.33</td><td class="num">⅓ save</td></tr>
+				<tr><td class="k">4+</td><td>Aeldari, Wrecka Krew</td><td class="num">1.50</td><td class="num">2.00</td><td class="num">½ save</td></tr>
+				<tr><td class="k">5+</td><td>Kommandos, Plasmacytes, Bomb Squigs</td><td class="num">1.00</td><td class="num">1.67</td><td class="num">⅔ save</td></tr>
+			</tbody>
+		</table></div>
+		<div class="prose">
+			<p>Two things in these tables decide everything downstream. The 4+ save sits exactly on a half, so any whole-number scheme must call the Aeldari one save or two, paper or iron. And cover is never a whole save; treating it as one is the single most destructive rule tested in this sitting (chapter 6).</p>
+		</div>
+	</section>
+</article>
+
+<article class="chapter" id="c3">
+	<header>
+		<div class="eyebrow"><b>03</b> · why every subtractive formula has dead cells</div>
+		<h2>The convexity gap</h2>
+	</header>
+	<div class="prose">
+		<p>Take the humblest matchup in the game: a Kommando's slugga, 4 dice at 4+, 3/4 damage, into a Space Marine's 3+ save in the open. Expected hits, two. Expected saves, two. Subtract and the formula says zero, forever, no matter how many Orks shoot. The real game says 2.18 damage per shot, and it says so because on 45 percent of rolls the Ork gets more hits than the Marine gets saves, and on the other 55 percent the Marine's surplus saves are wasted, not banked.</p>
+	</div>
+	<figure class="chart wide">
+		<div class="legend"><span><span class="sw" style="background:var(--green-500)"></span>probability of each damage total, slugga into a 3+ save, open</span><span><span class="sw" style="background:var(--felix)"></span>the true expectation, 2.18</span><span><span class="sw" style="background:var(--red-400)"></span>what E[hits] − E[saves] says</span></div>
+		<svg viewBox="0 0 760 270" role="img" aria-label="Bar chart. Damage zero has probability 0.55; damage three 0.18; four 0.12; six 0.04; seven 0.05; eight 0.03; a thin tail to sixteen. A vertical line marks the expectation at 2.18. The zero bar is marked as the subtractive formula's answer.">
+			<g class="grid"><line x1="60" y1="220" x2="740" y2="220"/><line x1="60" y1="160" x2="740" y2="160"/><line x1="60" y1="100" x2="740" y2="100"/><line x1="60" y1="40" x2="740" y2="40"/></g>
+			<g><text x="52" y="224" text-anchor="end">0</text><text x="52" y="164" text-anchor="end">.2</text><text x="52" y="104" text-anchor="end">.4</text><text x="52" y="44" text-anchor="end">.6</text></g>
+			<g fill="var(--green-500)">
+				<rect class="bar" tabindex="0" data-tip="0 damage · 55% of shots" x="60" y="56.2" width="28" height="163.8" rx="2"/>
+				<rect class="bar" tabindex="0" data-tip="3 damage · 18%" x="180" y="166" width="28" height="54" rx="2"/>
+				<rect class="bar" tabindex="0" data-tip="4 damage · 12%" x="220" y="183.7" width="28" height="36.3" rx="2"/>
+				<rect class="bar" tabindex="0" data-tip="6 damage · 4%" x="300" y="208" width="28" height="12" rx="2"/>
+				<rect class="bar" tabindex="0" data-tip="7 damage · 5%" x="340" y="203.8" width="28" height="16.2" rx="2"/>
+				<rect class="bar" tabindex="0" data-tip="8 damage · 3%" x="380" y="211" width="28" height="9" rx="2"/>
+				<rect class="bar" tabindex="0" data-tip="9 damage · 0.7%" x="420" y="217.9" width="28" height="2.1"/>
+				<rect class="bar" tabindex="0" data-tip="10 damage · 0.9%" x="460" y="217.3" width="28" height="2.7"/>
+				<rect class="bar" tabindex="0" data-tip="11 damage · 0.7%" x="500" y="217.9" width="28" height="2.1"/>
+				<rect class="bar" tabindex="0" data-tip="12 damage · 0.4%" x="540" y="218.8" width="28" height="1.2"/>
+				<rect class="bar" tabindex="0" data-tip="13 damage · 0.1%" x="580" y="219.6" width="28" height="0.4"/>
+				<rect class="bar" tabindex="0" data-tip="14 damage · 0.1%" x="620" y="219.6" width="28" height="0.4"/>
+			</g>
+			<g class="axis"><line x1="60" y1="220" x2="740" y2="220"/></g>
+			<g><text x="74" y="240" text-anchor="middle">0</text><text x="194" y="240" text-anchor="middle">3</text><text x="234" y="240" text-anchor="middle">4</text><text x="314" y="240" text-anchor="middle">6</text><text x="354" y="240" text-anchor="middle">7</text><text x="394" y="240" text-anchor="middle">8</text><text x="474" y="240" text-anchor="middle">10</text><text x="554" y="240" text-anchor="middle">12</text><text x="634" y="240" text-anchor="middle">14</text><text x="714" y="240" text-anchor="middle">16</text><text x="400" y="262" text-anchor="middle" class="callout">damage inflicted by one slugga shot</text></g>
+			<line x1="147" y1="30" x2="147" y2="220" stroke="var(--felix)" stroke-width="1.5" stroke-dasharray="4 3"/><text class="his" x="153" y="44">E[damage] = 2.18</text>
+			<text x="74" y="50" text-anchor="middle" fill="var(--red-400)">formula: 0</text>
+		</svg>
+		<figcaption>The slugga's whole distribution into a Marine. Over half of shots do nothing; the other half carry the entire expectation. A scheme that subtracts averages keeps the first half and deletes the second. Source: <span class="mono">data/shoot.py</span>, the Jensen block of <span class="mono">shoot.txt</span>.</figcaption>
+	</figure>
+	<div class="prose">
+		<p>This is Jensen's inequality wearing a Kommando's hat: the expectation of a convex function is at least the function of the expectation, and "hits minus saves, floored at zero" is convex. The gap is not a rounding error to tune away; it is structural to every scheme that subtracts before it floors. Three ways out showed up in the measurements, and they are the rungs of the ladder in the next chapter:</p>
+		<ul>
+			<li><strong>A floor.</strong> One hit always lands. It removes every dead cell at the price of a small upward bias, and it makes a grot's claw always scratch a Marine.</li>
+			<li><strong>Finer units.</strong> Halve the granularity and the 4+ save and the ⅔-crit stop rounding to nothing. The gap shrinks; it does not close.</li>
+			<li><strong>Precomputation.</strong> Print the true expectation on the card. The gap closes because nobody subtracts at the table.</li>
+		</ul>
+		<p>Prior art already knew this. Warmachine's damage is power plus two dice minus armour, and the two dice are there so that weak attacks sometimes hurt heavy targets; Into the Breach removed armour almost entirely rather than face the cliff. Chapter 12 has both.</p>
+	</div>
+</article>
+
+<article class="chapter" id="c4">
+	<header>
+		<div class="eyebrow"><b>04</b> · seven schemes against the truth, 584 cells each</div>
+		<h2>The ladder of schemes</h2>
+	</header>
+	<div class="prose">
+		<p>Every candidate was scored the same way: for each of the 73 ranged profiles against each of eight real defenders, the scheme's integer answer was compared with the exact KT24 expectation from chapter 2. Three metrics, because each catches what the others miss:</p>
+		<ul>
+			<li><strong>MAE, mean absolute error,</strong> is the average distance in damage between the scheme and the truth, sign ignored. An MAE of 1.0 means the scheme is typically one wound off per shot. <strong>Bias</strong> is the same average with the sign kept: positive means the scheme over-kills on average, negative under-kills.</li>
+			<li><strong>Dead cells</strong> are matchups where the scheme returns exactly zero damage while the real game deals some. Not dead operatives: dead <em>pairings</em>, a weapon that can never hurt a target. Thirty-six dead cells means thirty-six weapon-versus-defender combinations in this roster that the scheme declares impossible. Chapter 3 is why they exist.</li>
+			<li><strong>STK match, shots to kill,</strong> is the gameplay unit. Divide the defender's wounds by the damage and round up; the scheme scores when its count equals the count from the true expectation. A scheme can be off by two damage and still pass if both sides say "three shots," or off by half a wound and fail at a wounds boundary. This is the number that decides whether the game plays the same.</li>
+		</ul>
+	</div>
+	<figure class="chart wide">
+		<div class="legend"><span><span class="sw" style="background:var(--green-500)"></span>MAE, target in the open</span><span><span class="sw" style="background:var(--orange-400)"></span>MAE, target in cover, each scheme's own cover rule</span></div>
+		<svg viewBox="0 0 900 340" role="img" aria-label="Horizontal bar chart of mean absolute error for seven schemes, open and in cover. The card row is near zero. Half-hit units and the ratio scheme are about one. Whole hits with a floor about 1.4. Felix's corrected formula 1.6 open but 3.1 in cover. Whole hits without floor 1.75 and 3.4. The formula as written is 10 and 11, running off the chart.">
+			<g class="grid"><line x1="330" y1="10" x2="330" y2="300"/><line x1="420" y1="10" x2="420" y2="300"/><line x1="510" y1="10" x2="510" y2="300"/><line x1="600" y1="10" x2="600" y2="300"/><line x1="690" y1="10" x2="690" y2="300"/></g>
+			<g><text x="330" y="320" text-anchor="middle">0</text><text x="420" y="320" text-anchor="middle">2</text><text x="510" y="320" text-anchor="middle">4</text><text x="600" y="320" text-anchor="middle">6</text><text x="690" y="320" text-anchor="middle">8</text><text x="880" y="320" text-anchor="end" class="callout">damage</text></g>
+			<g>
+				<text x="320" y="30" text-anchor="end">card row, read a cell</text><rect class="bar" fill="var(--green-500)" data-tip="card row · open MAE 0.27" tabindex="0" x="330" y="18" width="12.2" height="11" rx="1"/><rect class="bar" fill="var(--orange-400)" data-tip="card row · cover MAE 0.25" tabindex="0" x="330" y="31" width="11.3" height="11" rx="1"/>
+				<text x="320" y="72" text-anchor="end">half-hit units, floor, two-tier keywords</text><rect class="bar" fill="var(--green-500)" data-tip="half-hit units · open 1.04" tabindex="0" x="330" y="60" width="46.8" height="11" rx="1"/><rect class="bar" fill="var(--orange-400)" data-tip="half-hit units · cover 1.04, cover = +1 half-save" tabindex="0" x="330" y="73" width="46.8" height="11" rx="1"/>
+				<text x="320" y="114" text-anchor="end">ratio: hits × dmg × (save−1)/6</text><rect class="bar" fill="var(--green-500)" data-tip="ratio · open 0.86" tabindex="0" x="330" y="102" width="38.7" height="11" rx="1"/><rect class="bar" fill="var(--orange-400)" data-tip="ratio · cover 1.31, cover = −1/6" tabindex="0" x="330" y="115" width="59" height="11" rx="1"/>
+				<text x="320" y="156" text-anchor="end">whole hits, floor, two-tier keywords</text><rect class="bar" fill="var(--green-500)" data-tip="whole hits + floor · open 1.43" tabindex="0" x="330" y="144" width="64.4" height="11" rx="1"/><rect class="bar" fill="var(--orange-400)" data-tip="whole hits + floor · cover 1.37, cover = −2 damage" tabindex="0" x="330" y="157" width="61.7" height="11" rx="1"/>
+				<text x="320" y="198" text-anchor="end">his formula corrected, +1 per keyword after</text><rect class="bar" fill="var(--green-500)" data-tip="corrected · open 1.58, bias 0.00" tabindex="0" x="330" y="186" width="71.1" height="11" rx="1"/><rect class="bar" fill="var(--orange-400)" data-tip="corrected · cover 3.09, cover = +1 save" tabindex="0" x="330" y="199" width="139" height="11" rx="1"/>
+				<text x="320" y="240" text-anchor="end">whole hits, no floor, no keywords</text><rect class="bar" fill="var(--green-500)" data-tip="whole, no floor · open 1.75" tabindex="0" x="330" y="228" width="78.8" height="11" rx="1"/><rect class="bar" fill="var(--orange-400)" data-tip="whole, no floor · cover 3.39" tabindex="0" x="330" y="241" width="152.6" height="11" rx="1"/>
+				<text x="320" y="282" text-anchor="end">as written, save read as successes, minus move</text><rect class="bar" fill="var(--green-500)" data-tip="as written · open 10.18" tabindex="0" x="330" y="270" width="458" height="11" rx="1"/><rect class="bar" fill="var(--orange-400)" data-tip="as written · cover 11.14" tabindex="0" x="330" y="283" width="501" height="11" rx="1"/>
+				<text class="callout" x="836" y="292">→ 11</text>
+			</g>
+		</svg>
+		<figcaption>Mean absolute error per shot for each scheme, in the open and in cover. Each halving of the error costs one more arithmetic step at the table. Source: <span class="mono">data/shoot.py</span>, tables T3.</figcaption>
+	</figure>
+	<div class="table-wrap wide"><table class="prosey">
+		<thead><tr><th>scheme</th><th>arithmetic at the table</th><th class="num">MAE open</th><th class="num">bias</th><th class="num">dead cells</th><th class="num">STK open</th><th class="num">STK cover</th></tr></thead>
+		<tbody>
+			<tr><td class="k">card row</td><td>none — the card prints damage against 3+ / 4+ / 5+, open and in cover, six cells, the rounded expectation</td><td class="num">0.27</td><td class="num">−0.06</td><td class="num">0</td><td class="num">89%</td><td class="num">79%</td></tr>
+			<tr><td class="k">half-hit units</td><td>Shots = round(ATK·(7−HIT)/3) · Armour = 7 − save, cover +1 · Shots − Armour, floor 1 · × damage, halve · + crit · + keywords</td><td class="num">1.04</td><td class="num">−0.41</td><td class="num">0</td><td class="num">67%</td><td class="num">57%</td></tr>
+			<tr><td class="k">ratio</td><td>hits × damage × (save − 1)/6 · Marines keep a third, Aeldari half, Orks two-thirds · cover one-sixth less · + crit · + keywords</td><td class="num">0.86</td><td class="num">−0.31</td><td class="num">0</td><td class="num">71%</td><td class="num">47%</td></tr>
+			<tr><td class="k">whole hits, floor</td><td>Hits = round(ATK·(7−HIT)/6) · Saves 3+→2, 4+→1, 5+→1 · Hits − Saves, floor 1 · × damage · + crit · + keywords · cover −2</td><td class="num">1.43</td><td class="num">+0.64</td><td class="num">0</td><td class="num">53%</td><td class="num">45%</td></tr>
+			<tr><td class="k">his formula, corrected</td><td>damage × (Hits − Saves) + crit + 1 per keyword, keywords after the multiply</td><td class="num">1.58</td><td class="num">0.00</td><td class="num">32</td><td class="num">54%</td><td class="num">27%</td></tr>
+			<tr><td class="k">whole hits, bare</td><td>Hits − Saves, × damage, nothing else</td><td class="num">1.75</td><td class="num">−0.90</td><td class="num">36</td><td class="num">54%</td><td class="num">23%</td></tr>
+			<tr><td class="k">his second, mid-build</td><td>(ATK × damage) − HIT · no save term · halved, it is the fourth row</td><td class="num">5.59</td><td class="num">+5.49</td><td class="num">0</td><td class="num">24%</td><td class="num">—</td></tr>
+			<tr><td class="k">as written</td><td>(damage + keywords) × ATK − (7 − save) − move</td><td class="num">10.18</td><td class="num">+10.08</td><td class="num">0</td><td class="num">23%</td><td class="num">12%</td></tr>
+		</tbody>
+	</table></div>
+	<div class="prose">
+		<p><strong>The half-hit rung is the interesting one.</strong> Double the granularity and the save table stops needing a table: Armour is 7 minus save, exactly, an integer. Marines 4, Aeldari 3, Orks 2, cover plus one. Shots is a twelve-cell lookup: ATK 4 at 3+ is 5, at 4+ is 4, at 2+ is 7. Shots minus Armour, times damage, halved. Twice the precision of whole hits, because the game's real granularity is half a hit: three save dice at 4+ is 1.5. The price is the halving, and that halving is the whole difference between rung two and rung three.</p>
+		<p><strong>The ratio rung surprised the sitting.</strong> Multiplying by a save fraction beat every subtractive scheme in the open, because a fraction never produces a dead cell. It lost badly in cover, where cover cannot be expressed as a clean sixth. Neither subtraction nor ratio is the real curve; the truth is subtraction that floors at variance, and each scheme approximates one side of that.</p>
+		<p><strong>His second formula, sent while this page was being built,</strong> was (ATK × damage) − HIT. It has no save term, so a Marine and a Kommando take the same, and it runs about double the truth: 11.6 on average against 5.3 into a 3+ and 7.5 into a 5+. Halved, it lands at MAE 1.73 with 24 dead cells, the whole-hit rung's neighbourhood, still blind to armour. Subtracting HIT is a constant of two to five against a product of twelve to twenty; it cannot carry the 2+-versus-4+ difference, which is a factor of two and a half in hits. In the same message he leaned toward the printed rounded expectation, the card row, and the ladder agrees with him: it is the only rung under half a wound of error.</p>
+		<p><strong>His own formula, corrected,</strong> has zero bias. Save read as successes, HIT folded into the hit count, keywords added after the multiply instead of inside it, movement removed. It still has thirty-two dead cells, because it subtracts before it floors. Add the floor and it becomes the whole-hit rung.</p>
+	</div>
+</article>
+
+<article class="chapter" id="c5">
+	<header>
+		<div class="eyebrow"><b>05</b> · what a keyword is actually worth</div>
+		<h2>Keywords, weighed</h2>
+	</header>
+	<div class="prose">
+		<p>His rule was "each keyword adds +1." To test it, every keyword-bearing profile in the roster was run with and without its keyword, against 3+, 4+ and 5+ saves in the open, and the difference in expected damage recorded. Units matter: a keyword's worth in <em>hits</em> is small, in <em>damage</em> it is about one, and his rule was in damage units before the multiply, which turned it into plus ATK.</p>
+	</div>
+	<figure class="chart wide">
+		<div class="legend"><span><span class="sw" style="background:var(--green-500)"></span>mean extra damage per shot the keyword adds</span></div>
+		<svg viewBox="0 0 900 400" role="img" aria-label="Horizontal bars. Relentless 4.8. Devastating 2.2. Piercing 2.2. Ceaseless 1.4. Saturate 1.1 in cover. Piercing Crits 1.0. Rending 0.8. Lethal 0.8. Severe 0.4.">
+			<g class="grid"><line x1="230" y1="10" x2="230" y2="360"/><line x1="330" y1="10" x2="330" y2="360"/><line x1="430" y1="10" x2="430" y2="360"/><line x1="530" y1="10" x2="530" y2="360"/><line x1="630" y1="10" x2="630" y2="360"/><line x1="730" y1="10" x2="730" y2="360"/></g>
+			<g><text x="230" y="380" text-anchor="middle">0</text><text x="330" y="380" text-anchor="middle">1</text><text x="430" y="380" text-anchor="middle">2</text><text x="530" y="380" text-anchor="middle">3</text><text x="630" y="380" text-anchor="middle">4</text><text x="730" y="380" text-anchor="middle">5</text><text x="880" y="380" text-anchor="end" class="callout">damage</text></g>
+			<g fill="var(--green-500)">
+				<text x="220" y="36" text-anchor="end" fill="var(--muted)">Relentless · n=1</text><rect class="bar" tabindex="0" data-tip="Relentless: re-roll any · +4.8 damage · 1.2 hits" x="230" y="24" width="480" height="16" rx="2"/>
+				<text x="220" y="76" text-anchor="end" fill="var(--muted)">Devastating x · n=8</text><rect class="bar" tabindex="0" data-tip="Devastating: x per crit, unblockable · +2.2 mean, about two-thirds of x" x="230" y="64" width="220" height="16" rx="2"/>
+				<text x="220" y="116" text-anchor="end" fill="var(--muted)">Piercing x · n=16</text><rect class="bar" tabindex="0" data-tip="Piercing: one fewer defence die · +2.7 vs Marines, +1.6 vs Orks" x="230" y="104" width="216" height="16" rx="2"/>
+				<text x="220" y="156" text-anchor="end" fill="var(--muted)">Ceaseless · n=5</text><rect class="bar" tabindex="0" data-tip="Ceaseless: re-roll one result · +1.4" x="230" y="144" width="139" height="16" rx="2"/>
+				<text x="220" y="196" text-anchor="end" fill="var(--muted)">Saturate, in cover · n=5</text><rect class="bar" tabindex="0" data-tip="Saturate: no cover save · +1.1, and nothing in the open" x="230" y="184" width="113" height="16" rx="2"/>
+				<text x="220" y="236" text-anchor="end" fill="var(--muted)">Piercing Crits 1 · n=5</text><rect class="bar" tabindex="0" data-tip="Piercing Crits: Piercing only when a crit lands · +1.0" x="230" y="224" width="95" height="16" rx="2"/>
+				<text x="220" y="276" text-anchor="end" fill="var(--muted)">Rending · n=15</text><rect class="bar" tabindex="0" data-tip="Rending: a normal becomes a crit if any crit · +0.8" x="230" y="264" width="80" height="16" rx="2"/>
+				<text x="220" y="316" text-anchor="end" fill="var(--muted)">Lethal 5+ · n=5</text><rect class="bar" tabindex="0" data-tip="Lethal 5+: crits on 5 and 6 · +0.8" x="230" y="304" width="79" height="16" rx="2"/>
+				<text x="220" y="356" text-anchor="end" fill="var(--muted)">Severe · n=3</text><rect class="bar" tabindex="0" data-tip="Severe: one crit if none · +0.4" x="230" y="344" width="42" height="16" rx="2"/>
+			</g>
+		</svg>
+		<figcaption>Mean damage each keyword adds to a shot, averaged over the profiles that carry it and three saves. Two tiers fall out: about one for the texture keywords, two or more for Piercing, Devastating and Relentless. Source: <span class="mono">data/shoot.py</span>, table T2.</figcaption>
+	</figure>
+	<div class="prose">
+		<p>Piercing is the one keyword whose worth depends on the target: 2.7 against a Marine, 1.6 against an Ork, because it removes a die that was worth two-thirds of a save to one and a third to the other. Devastating is flat by construction, it pays before the defender rolls. Rending, Lethal and Severe are the Aeldari's texture, and each is worth less than a whole damage; round them to zero and the Aeldari lose their character, round them to a hit each and they triple.</p>
+	</div>
+</article>
+
+<article class="chapter" id="c6">
+	<header>
+		<div class="eyebrow"><b>06</b> · the most destructive rule tested</div>
+		<h2>Cover</h2>
+	</header>
+	<div class="prose">
+		<p>In KT24 cover lets the defender keep one die as a normal save without rolling it, and roll two. That is worth a third of a save to a 3+, half to a 4+, two-thirds to a 5+. The obvious Ork rule, "cover: one more save," is therefore between one and a half and three times too strong, and under a whole-hit scheme it produces the table below.</p>
+	</div>
+	<div class="table-wrap" style="max-width: 760px;"><table>
+		<thead><tr><th>cover rule, whole-hit scheme</th><th class="num">MAE</th><th class="num">bias</th><th class="num">dead cells</th><th class="num">STK match</th></tr></thead>
+		<tbody>
+			<tr><td class="k">one more save</td><td class="num">3.04</td><td class="num">−2.70</td><td class="num">320 of 584</td><td class="num">28%</td></tr>
+			<tr><td class="k">minus 1 damage</td><td class="num">1.49</td><td class="num">+0.66</td><td class="num">0</td><td class="num">43%</td></tr>
+			<tr><td class="k">minus 2 damage</td><td class="num">1.37</td><td class="num">−0.34</td><td class="num">4</td><td class="num">45%</td></tr>
+			<tr><td class="k">minus half a hit's damage</td><td class="num">1.46</td><td class="num">−0.15</td><td class="num">0</td><td class="num">43%</td></tr>
+			<tr><td class="k">minus one hit's damage</td><td class="num">2.00</td><td class="num">−1.61</td><td class="num">16</td><td class="num">34%</td></tr>
+		</tbody>
+	</table></div>
+	<div class="prose">
+		<p>Under half-hit units the question dissolves: cover is plus one Armour, worth exactly half a save, and the scheme's error in cover equals its error in the open. This is the second reason the half-hit rung exists. Obscured was not modelled in this sitting; his "obscure: half damage" is plausible and unverified.</p>
+	</div>
+</article>
+
+<article class="chapter" id="c7">
+	<header>
+		<div class="eyebrow"><b>07</b> · Marines, Necrons, Orks, Aeldari under determinism</div>
+		<h2>Four factions</h2>
+	</header>
+	<div class="prose">
+		<p>The gameplay unit is shots to kill. The table gives the true expectation per shot in the open, the shots-to-kill it implies, and what the whole-hit scheme predicts, for the workhorse gun of each faction into the workhorse body of each.</p>
+	</div>
+	<div class="table-wrap wide"><table>
+		<thead><tr><th>attacker → defender</th><th>Intercessor 3+ / 14W</th><th>Immortal 3+ / 10W</th><th>Kommando 5+ / 10W</th><th>Corsair 4+ / 8W</th></tr></thead>
+		<tbody>
+			<tr><td class="k">Marine bolt rifle 4/3+/3/4 PrcCrit</td><td>4.2 · 4 shots · scheme 3</td><td>4.2 · 3 · 2</td><td>6.2 · 2 · 2</td><td>5.2 · 2 · 1</td></tr>
+			<tr><td class="k">Necron gauss blaster 4/3+/4/5 Prc1</td><td>6.3 · 3 · 2</td><td>6.3 · 2 · 2</td><td>8.6 · 2 · 1</td><td>7.5 · 2 · 1</td></tr>
+			<tr><td class="k">Ork slugga 4/4+/3/4</td><td>2.2 · 7 · 4</td><td>2.2 · 5 · 3</td><td>4.0 · 3 · 3</td><td>3.1 · 3 · 2</td></tr>
+			<tr><td class="k">Ork rokkit 6/4+/4/5</td><td>5.9 · 3 · 3</td><td>5.9 · 2 · 2</td><td>9.0 · 2 · 2</td><td>7.4 · 2 · 1</td></tr>
+			<tr><td class="k">Aeldari shuriken rifle 4/3+/3/4 Rnd</td><td>4.1 · 4 · 3</td><td>4.1 · 3 · 2</td><td>6.3 · 2 · 2</td><td>5.2 · 2 · 1</td></tr>
+			<tr><td class="k">Aeldari blaster 4/3+/4/5 Prc2</td><td>8.7 · 2 · 2</td><td>8.7 · 2 · 2</td><td>10.0 · 2 · 1</td><td>9.3 · 1 · 1</td></tr>
+		</tbody>
+	</table></div>
+	<section>
+		<h3>Who the schemes flatter and who they rob</h3>
+		<div class="prose"><p>Mean signed error by attacking faction against every defender, for the two arithmetic rungs. Positive means the scheme over-kills for that faction.</p></div>
+		<div class="table-wrap wide"><table>
+			<thead><tr><th>attacking faction</th><th class="num">half-hit units</th><th class="num">whole hits, floor</th><th>what drives it</th></tr></thead>
+			<tbody>
+				<tr><td class="k">Angels of Death</td><td class="num">+0.2</td><td class="num">+1.3</td><td>a floor that lands one hit is a gift to a 3-damage gun; whole hits round 4+ saves down and over-kill Aeldari by 2.6</td></tr>
+				<tr><td class="k">Hierotek Circle</td><td class="num">+0.1</td><td class="num">+0.6</td><td>high damage per hit loses least to rounding; Piercing worth 2.7 into Marines, counted as 2</td></tr>
+				<tr><td class="k">Kommandos</td><td class="num">−0.1</td><td class="num">+0.1</td><td>4+ hit sluggas round to 2 hits; the floor gives back what the rounding took</td></tr>
+				<tr><td class="k">Wrecka Krew</td><td class="num">−1.2</td><td class="num">−0.2</td><td>6/5+ rokkits: 2 expected hits carrying 3.5 damage of variance the formula cannot see</td></tr>
+				<tr><td class="k">Corsair Voidscarred</td><td class="num">−1.2</td><td class="num">+0.5</td><td>texture keywords worth 0.8 each; the half-hit rung's rounding of ATK 4 at 3+ to 5 half-hits sits under 5.33</td></tr>
+				<tr><td class="k">Void-Dancer Troupe</td><td class="num">−0.9</td><td class="num">+0.6</td><td>same shape as the Corsairs</td></tr>
+				<tr><td class="k">Blades of Khaine</td><td class="num">−0.2</td><td class="num">+1.5</td><td>Rending and Lethal on almost every gun; whole hits count each as a full damage</td></tr>
+			</tbody>
+		</table></div>
+	</section>
+	<section>
+		<h3>Each faction meets determinism differently</h3>
+		<div class="pairs">
+			<div class="pair"><div class="k">Marines <small>3+ · 14 wounds · 4/3+/3/4</small></div><div class="v"><p>The faction the floor exists for. Without it, sluggas and lasguns never touch them and the horde archetype dies. With it, a grot's claw always scratches. Their guns are the median of the game, so every scheme fits them best, and their Astartes double-shoot, which this sitting did not model, doubles whatever the scheme says.</p></div></div>
+			<div class="pair"><div class="k">Necrons <small>3+ · 10 to 14 wounds · gauss 4/5 Prc1, tesla Dev</small></div><div class="v"><p>High damage per hit loses least to rounding, and Piercing is worth most against exactly the armour they fight. Determinism flatters them at every rung. The Synaptic Disintegrator at 2+ with Devastating 2 and Piercing is the deadliest gun in the roster in truth, 9.4 into a Marine, and a scheme that ignores HIT cannot see why.</p></div></div>
+			<div class="pair"><div class="k">Orks <small>5+ · 10 wounds · 4+ and 5+ Hit · ATK 6 rokkits</small></div><div class="v"><p>The variance faction. Their luck was real damage: a 6/5+ rokkit is 2 expected hits and 3.5 expected damage into a Marine, and a subtractive scheme sees only the 2. Every rung underrates Wrecka Krew. The Kommandos' own 5+ save is the one save every scheme gets right, one die, no halves.</p></div></div>
+			<div class="pair"><div class="k">Aeldari <small>4+ · 8 wounds · 7" · Rending, Lethal, Ceaseless</small></div><div class="v"><p>The half-save problem incarnate. Every save is 4+, so a whole-hit scheme must call them one save or two, and the two answers give them 8 wounds of paper or of iron. Their weapons are all texture, each keyword worth about 0.8 damage; round to zero and they are Marines with less armour, round to one and they triple. Half units keep them, and the half-hit rung's residual error is almost entirely theirs.</p></div></div>
+		</div>
+	</section>
+</article>
+
+<article class="chapter" id="c8">
+	<header>
+		<div class="eyebrow"><b>08</b> · rounded hits, and the one decision that survives</div>
+		<h2>Melee</h2>
+	</header>
+	<div class="prose">
+		<p>KT24's fight is both players rolling, then alternating one die at a time, attacker first, each die spent as a strike or a block. Replace each roll by its rounded expectation and nothing else changes: the sequence is the same, the strike-or-block choice is the same, and the fight becomes a small perfect-information game, solvable at the table by reading ahead. This is the version measured here, against the exact expectation over both rolls with the same minimax policy for both.</p>
+	</div>
+	<div class="table-wrap wide"><table>
+		<thead><tr><th>attacker charges → defender</th><th>Marine chainsword 5/3+/4/5 · 14W</th><th>Necron bayonet 4/3+/3/4 · 10W</th><th>Ork choppa 4/3+/4/5 · 10W</th><th>Aeldari power weapon 4/3+/4/6 Lethal · 8W</th></tr></thead>
+		<tbody>
+			<tr><td class="k">Marine chainsword</td><td>9% kill · 7% dies · det: 1W each</td><td>30% · 0% · det: Necron left at 2</td><td>30% · 2% · det: Ork at 2</td><td>81% · 2% · det: kill</td></tr>
+			<tr><td class="k">Necron bayonet</td><td>0% · 19% · det: Marine at 8</td><td>10% · 4% · det: 4W each</td><td>10% · 9% · det: Ork at 4</td><td>7% · 39% · det: Aeldari at 5</td></tr>
+			<tr><td class="k">Ork choppa</td><td>5% · 19% · det: Marine at 6</td><td>13% · 4% · det: Necron at 2</td><td>13% · 9% · det: 2W each</td><td>62% · 18% · det: kill</td></tr>
+			<tr><td class="k">Aeldari power weapon</td><td>4% · 53% · det: Marine at 8</td><td>64% · 5% · det: kill</td><td>64% · 16% · det: kill</td><td>64% · 16% · det: kill</td></tr>
+		</tbody>
+	</table></div>
+	<figure class="diagram wide">
+		<svg viewBox="0 0 960 250" role="img" aria-label="Sequence diagram of the deterministic fight. Five rows: Marine strikes 4, Ork 6 wounds. Ork strikes 4, Marine 10. Marine strikes 4, Ork 2. Ork blocks the crit with its crit. Ork strikes 4, Marine 6. Two wound bars per row shrink as damage lands.">
+			<g class="label"><text x="20" y="22">who</text><text x="110" y="22">the die spent</text><text x="420" y="22">Marine · 14 wounds</text><text x="680" y="22">Ork · 10 wounds</text></g>
+			<g>
+				<text class="strong" x="20" y="58">Marine</text><text x="110" y="58">strike normal, 4 damage</text><rect class="box lit" x="420" y="46" width="168" height="14"/><text x="596" y="58" class="lit-text">14</text><rect class="box stain" x="680" y="46" width="72" height="14"/><rect x="752" y="46" width="48" height="14" fill="none" stroke="var(--grey-700)" stroke-dasharray="2 2"/><text x="808" y="58" class="stain-text">6</text>
+				<text class="strong" x="20" y="98">Ork</text><text x="110" y="98">strike normal, 4 damage</text><rect class="box lit" x="420" y="86" width="120" height="14"/><rect x="540" y="86" width="48" height="14" fill="none" stroke="var(--grey-700)" stroke-dasharray="2 2"/><text x="596" y="98" class="lit-text">10</text><rect class="box stain" x="680" y="86" width="72" height="14"/><text x="808" y="98" class="stain-text">6</text>
+				<text class="strong" x="20" y="138">Marine</text><text x="110" y="138">strike normal, 4 damage</text><rect class="box lit" x="420" y="126" width="120" height="14"/><text x="596" y="138" class="lit-text">10</text><rect class="box stain" x="680" y="126" width="24" height="14"/><rect x="704" y="126" width="48" height="14" fill="none" stroke="var(--grey-700)" stroke-dasharray="2 2"/><text x="808" y="138" class="stain-text">2</text>
+				<text class="strong" x="20" y="178">Ork</text><text x="110" y="178" class="strong">block the Marine's crit with its own crit</text><rect class="box lit" x="420" y="166" width="120" height="14"/><text x="596" y="178" class="lit-text">10</text><rect class="box stain" x="680" y="166" width="24" height="14"/><text x="808" y="178" class="stain-text">2</text>
+				<text class="strong" x="20" y="218">Ork</text><text x="110" y="218">strike normal, 4 damage</text><rect class="box lit" x="420" y="206" width="72" height="14"/><rect x="492" y="206" width="48" height="14" fill="none" stroke="var(--grey-700)" stroke-dasharray="2 2"/><text x="596" y="218" class="lit-text">6</text><rect class="box stain" x="680" y="206" width="24" height="14"/><text x="808" y="218" class="stain-text">2</text>
+			</g>
+		</svg>
+		<figcaption>The line the deterministic fight actually plays when a Marine's chainsword, 2 normal hits and 1 crit, charges an Ork's choppa, the same. The Ork's fourth die is the decision: it blocks the 5-damage crit that would have killed it rather than strike. Both survive. Source: <span class="mono">data/fight.py</span>.</figcaption>
+	</figure>
+	<div class="prose">
+		<p>Two findings. First, where the dice gave 60 to 80 percent, determinism gives certainty, and where they gave 5 to 30, it gives a wounded survivor; the deterministic fight tracks the <em>shape</em> of the expectation while removing the swing. Second, first strike is decisive only where damage is high against wounds. Aeldari power weapons into 8-wound Aeldari kill on the charge in both worlds, 64 percent and 100. Marines into Marines, Orks into Orks, Necrons into Necrons end as mutual bleeds in both worlds, because the defender can always spend its crit on a block. His "back and forth until die" with no blocking would have thrown that decision away, and it is the only decision melee has.</p>
+	</div>
+</article>
+
+<article class="chapter" id="c9">
+	<header>
+		<div class="eyebrow"><b>09</b> · numbers about him, from his own files</div>
+		<h2>Datums</h2>
+	</header>
+	<div class="prose">
+		<p>His reporter's log at <span class="mono">~/Projects/KillTeam/BattleData/reporter/data/battle-results.txt</span> holds 212 games in his circle from October 2024 to April 2026, 104 with him in them; the script is <span class="mono">data/log.py</span>. His record is 60 wins, 38 losses, 4 ties, across eleven teams, Hierotek Circle most.</p>
+	</div>
+	<figure class="chart wide">
+		<div class="legend"><span><span class="sw" style="background:var(--grey-600)"></span>games logged in his circle</span><span><span class="sw" style="background:var(--felix)"></span>games with him in them</span></div>
+		<svg viewBox="0 0 960 270" role="img" aria-label="Paired bar chart of games per month, October 2024 to April 2026. His games peak at eleven in December 2024, hold around nine through mid 2025, fall to four in September 2025, one in November, zero in December, bounce to seven in January 2026, then three, four, one. The last game is April 6, 2026.">
+			<g class="grid"><line x1="50" y1="220" x2="940" y2="220"/><line x1="50" y1="175" x2="940" y2="175"/><line x1="50" y1="130" x2="940" y2="130"/><line x1="50" y1="85" x2="940" y2="85"/><line x1="50" y1="40" x2="940" y2="40"/></g>
+			<g><text x="42" y="224" text-anchor="end">0</text><text x="42" y="179" text-anchor="end">5</text><text x="42" y="134" text-anchor="end">10</text><text x="42" y="89" text-anchor="end">15</text><text x="42" y="44" text-anchor="end">20</text></g>
+			<g fill="var(--grey-600)">
+				<rect class="bar" tabindex="0" data-tip="2024-10 · 5 games, 5 his" x="50" y="175" width="18" height="45"/><rect class="bar" tabindex="0" data-tip="2024-11 · 6, 4 his" x="97" y="166" width="18" height="54"/><rect class="bar" tabindex="0" data-tip="2024-12 · 20, 11 his — the peak" x="144" y="40" width="18" height="180"/><rect class="bar" tabindex="0" data-tip="2025-01 · 14, 9 his" x="191" y="94" width="18" height="126"/><rect class="bar" tabindex="0" data-tip="2025-02 · 15, 8 his" x="238" y="85" width="18" height="135"/><rect class="bar" tabindex="0" data-tip="2025-03 · 11, 5 his" x="285" y="121" width="18" height="99"/><rect class="bar" tabindex="0" data-tip="2025-04 · 16, 10 his" x="332" y="76" width="18" height="144"/><rect class="bar" tabindex="0" data-tip="2025-05 · 14, 9 his" x="379" y="94" width="18" height="126"/><rect class="bar" tabindex="0" data-tip="2025-06 · 12, 5 his" x="426" y="112" width="18" height="108"/><rect class="bar" tabindex="0" data-tip="2025-07 · 17, 9 his" x="473" y="67" width="18" height="153"/><rect class="bar" tabindex="0" data-tip="2025-08 · 10, 5 his" x="520" y="130" width="18" height="90"/><rect class="bar" tabindex="0" data-tip="2025-09 · 12, 4 his — the decline begins" x="567" y="112" width="18" height="108"/><rect class="bar" tabindex="0" data-tip="2025-10 · 14, 4 his" x="614" y="94" width="18" height="126"/><rect class="bar" tabindex="0" data-tip="2025-11 · 6, 1 his" x="661" y="166" width="18" height="54"/><rect class="bar" tabindex="0" data-tip="2025-12 · 6, none his" x="708" y="166" width="18" height="54"/><rect class="bar" tabindex="0" data-tip="2026-01 · 14, 7 his — the relapse" x="755" y="94" width="18" height="126"/><rect class="bar" tabindex="0" data-tip="2026-02 · 8, 3 his" x="802" y="148" width="18" height="72"/><rect class="bar" tabindex="0" data-tip="2026-03 · 10, 4 his" x="849" y="130" width="18" height="90"/><rect class="bar" tabindex="0" data-tip="2026-04 · 2, 1 his — the last game, April 6" x="896" y="202" width="18" height="18"/>
+			</g>
+			<g fill="var(--felix)">
+				<rect class="bar" tabindex="0" data-tip="2024-10 · 5 his" x="70" y="175" width="18" height="45"/><rect class="bar" tabindex="0" data-tip="2024-11 · 4 his" x="117" y="184" width="18" height="36"/><rect class="bar" tabindex="0" data-tip="2024-12 · 11 his" x="164" y="121" width="18" height="99"/><rect class="bar" tabindex="0" data-tip="2025-01 · 9 his" x="211" y="139" width="18" height="81"/><rect class="bar" tabindex="0" data-tip="2025-02 · 8 his" x="258" y="148" width="18" height="72"/><rect class="bar" tabindex="0" data-tip="2025-03 · 5 his" x="305" y="175" width="18" height="45"/><rect class="bar" tabindex="0" data-tip="2025-04 · 10 his" x="352" y="130" width="18" height="90"/><rect class="bar" tabindex="0" data-tip="2025-05 · 9 his" x="399" y="139" width="18" height="81"/><rect class="bar" tabindex="0" data-tip="2025-06 · 5 his" x="446" y="175" width="18" height="45"/><rect class="bar" tabindex="0" data-tip="2025-07 · 9 his" x="493" y="139" width="18" height="81"/><rect class="bar" tabindex="0" data-tip="2025-08 · 5 his" x="540" y="175" width="18" height="45"/><rect class="bar" tabindex="0" data-tip="2025-09 · 4 his" x="587" y="184" width="18" height="36"/><rect class="bar" tabindex="0" data-tip="2025-10 · 4 his" x="634" y="184" width="18" height="36"/><rect class="bar" tabindex="0" data-tip="2025-11 · 1 his" x="681" y="211" width="18" height="9"/><rect class="bar" tabindex="0" data-tip="2026-01 · 7 his" x="775" y="157" width="18" height="63"/><rect class="bar" tabindex="0" data-tip="2026-02 · 3 his" x="822" y="193" width="18" height="27"/><rect class="bar" tabindex="0" data-tip="2026-03 · 4 his" x="869" y="184" width="18" height="36"/><rect class="bar" tabindex="0" data-tip="2026-04 · 1 his" x="916" y="211" width="18" height="9"/>
+			</g>
+			<g class="axis"><line x1="50" y1="220" x2="940" y2="220"/></g>
+			<g><text x="69" y="240" text-anchor="middle">Oct 24</text><text x="210" y="240" text-anchor="middle">Jan 25</text><text x="351" y="240" text-anchor="middle">Apr</text><text x="492" y="240" text-anchor="middle">Jul</text><text x="633" y="240" text-anchor="middle">Oct</text><text x="774" y="240" text-anchor="middle">Jan 26</text><text x="915" y="240" text-anchor="middle">Apr</text></g>
+		</svg>
+		<figcaption>Games per month in his circle and with him in them. The decline begins September 2025, one relapse in January 2026, nothing after April 6. The canon month was August 2026, eleven months after the decline began: his diagnosis, <em>the bullshit is outweighing the fun</em>, fits the record, and "he got busy building a hive" does not. Measured, not praised. Source: <span class="mono">data/log.py</span> → <span class="mono">log.tsv</span>.</figcaption>
+	</figure>
+	<section>
+		<h3>The other datum: his prior redesign</h3>
+		<div class="prose">
+			<p>He ruled Matakipa out of scope for this sitting, and it stays out. One fact from it is load-bearing for the mechanics and is recorded here for that reason only: <span class="mono">~/Projects/KillTeam/Matakipa/</span> is a Typst rulebook for a diceless Kill Team on a 10 cm hex grid, whose ranged attacks are chosen bullet cards and whose melee is face-down Strike, Defend, Parry and Feint. Its TODO stops at "define exact stat schema and values for all agents." Ork Brain inherits GW's stats and so never meets that wall; Matakipa's hidden-hand melee is the other diceless answer to the decision chapter 8 keeps.</p>
+		</div>
+	</section>
+</article>
+
+<article class="chapter" id="c10">
+	<header>
+		<div class="eyebrow"><b>10</b> · what the measurements leave to him</div>
+		<h2>The five forks</h2>
+	</header>
+	<div class="pairs">
+		<div class="pair"><div class="k">Which rung</div><div class="v"><p>Card row, half-hit units, ratio, or whole hits. Each halving of error costs one arithmetic step at the table, and the card row costs none but needs six numbers printed per weapon. The Ork constraint, <em>if it no fit card, it no rule</em>, is itself a vote. In the sitting he leaned toward the card row: <em>"I think a printed rounded expectation might be best."</em></p></div></div>
+		<div class="pair"><div class="k">Floor or no floor</div><div class="v"><p>With a floor, one hit always lands and no pairing is ever impossible; a grot's claw scratches a Marine. Without it, thirty-odd pairings in this roster alone are immune, and the horde archetype dies. The floor is the cheapest fix for the convexity gap and the least faithful to any single roll.</p></div></div>
+		<div class="pair"><div class="k">One hit is a crit</div><div class="v"><p>Expected crits are two-thirds per ATK 4 shot, one and a third with Lethal. "One of your hits is always a crit; Lethal makes it two" is the rounding every scheme above used, and it is where most of the whole-hit rung's upward bias lives.</p></div></div>
+		<div class="pair"><div class="k">Cover</div><div class="v"><p>Armour plus 1 under half-hit units, exact to the half-save. Minus 2 damage under whole hits, the least-bad of five rules tested. Never one more save.</p></div></div>
+		<div class="pair"><div class="k">Melee with blocks</div><div class="v"><p>Rounded hits plus KT's own strike-or-block sequence keeps the one decision and makes it perfect-information. "Until die" without blocks is simpler and decides every fight by tempo alone. Matakipa's hidden hand is the third road, diceless with a gamble.</p></div></div>
+	</div>
+</article>
+
+<article class="chapter" id="c11">
+	<header>
+		<div class="eyebrow"><b>11</b> · the first turn, before he narrowed it</div>
+		<h2>The wider map</h2>
+	</header>
+	<div class="prose">
+		<p>Before the narrowing the office mapped twenty-four branches of the dream: the table, the community, the horizon, and the ones nobody asked about. He read it and ruled three regions out, Matakipa, making it real, and the legal branch. The map is kept here compressed so the record shows what the sitting saw before it chose; the mechanics are the only region it then walked.</p>
+	</div>
+	<div class="table-wrap wide"><table class="prosey">
+		<thead><tr><th>region</th><th>branches, one line each</th><th>his ruling</th></tr></thead>
+		<tbody>
+			<tr><td class="k">the table</td><td>patch not fork, the same cards with new physics · the card does the math · melee pre-decided or Matakipa's hidden hand · the grid kills the tape measure · the last dice, initiative and re-rolls · Chess960-shaped: random setup, deterministic play, no opening book</td><td class="new">walked — chapters 2 to 10</td></tr>
+			<tr><td class="k">the community</td><td>"both agree on fuckery" is free Kriegsspiel · the convergence trap, The 9th Age's committee · two Elos from one result and the identifiability problem · komi, handicaps from data · low-tier heroes · Lichess, described without being named · GW's stated, revealed and enforced policies · the incentive flip if it sells boxes · the moat: GW cannot remove dice</td><td>not this sitting</td></tr>
+			<tr><td class="k">the horizon</td><td>formalization, Kill Team's FEN and PGN · engines and self-play balance · puzzles · replays and Elo on moves · the solved horizon and its cure</td><td>the formalization walked; the rest waits</td></tr>
+			<tr><td class="k">nobody asked</td><td>two tongues, Ork-speak against his precision law · auth already half-built in Airlock · the Guild's public debut in costume · what kills it: the committee, the league's patience, seven-day weeks</td><td>not this sitting</td></tr>
+		</tbody>
+	</table></div>
+</article>
+
+<article class="chapter" id="c12">
+	<header>
+		<div class="eyebrow"><b>12</b> · name · year · one line · the chapter it feeds</div>
+		<h2>Rabbit holes</h2>
+	</header>
+	<div class="pairs">
+		<div class="pair"><div class="k">Jensen's inequality <span class="yr">1906</span></div><div class="v"><p>For a convex function, the expectation of the function is at least the function of the expectation. "Hits minus saves, floored at zero" is convex; the dead cells are the gap. <span class="feeds">03</span></p></div></div>
+		<div class="pair"><div class="k">Kill Team core rules, March 2025 <span class="yr">GW</span></div><div class="v"><p>The shoot and fight sequences this sitting formalized: three defence dice, cover as one retained normal save, two normals block a crit, alternate strike or block. His copy is in <span class="mono">~/Projects/KillTeam/Rules</span>. <span class="feeds">02 · 08</span></p></div></div>
+		<div class="pair"><div class="k">KTDash <span class="yr">2021 →</span></div><div class="v"><p>The fan-built Kill Team database whose export is his <span class="mono">kt24.json</span>, 52 teams with every profile and keyword; every number here descends from it. <span class="feeds">02 · 09</span></p></div></div>
+		<div class="pair"><div class="k">Warmachine <span class="yr">2003</span></div><div class="v"><p>Damage is POW plus 2d6 minus ARM: a subtractive armour system that keeps two dice precisely so weak attacks sometimes hurt heavy targets. The dice are its floor. <span class="feeds">03</span></p></div></div>
+		<div class="pair"><div class="k">Into the Breach <span class="yr">2018</span></div><div class="v"><p>Subset Games' deterministic tactics: every attack telegraphed, damage flat, armour nearly absent so no immunity cliff can form, randomness moved to map generation. The best-loved diceless tactics game and the model of "certainty where dice gave odds." <span class="feeds">03 · 08</span></p></div></div>
+		<div class="pair"><div class="k">Chess960 <span class="yr">1996</span></div><div class="v"><p>Fischer's variant, invented because opening memorization killed chess for him — his complaint, word for word. Random setup, deterministic play. Ork Brain's thousands of mission-by-map-by-pairing starts are the same cure. <span class="feeds">11</span></p></div></div>
+		<div class="pair"><div class="k">Free Kriegsspiel <span class="yr">1876</span></div><div class="v"><p>Verdy du Vernois replaced the Prussian wargame's tables and dice with an umpire's judgment: faster, more fun, less reproducible, adopted by the armies. "Both players must agree on fuckery" is free Kriegsspiel with two umpires. <span class="feeds">11</span></p></div></div>
+		<div class="pair"><div class="k">Commander <span class="yr">1996 · 2024</span></div><div class="v"><p>Magic's fan format: same cards, a new rules layer, community-run, the most-played way to play; Wizards took stewardship in September 2024. The precedent for a patch over a publisher's content. <span class="feeds">11</span></p></div></div>
+		<div class="pair"><div class="k">Komi <span class="yr">1930s →</span></div><div class="v"><p>Go's compensation for the first move rose over a century, 4.5 to 5.5 to 6.5 or 7.5, as data accumulated: balance tuned by the record, not by decree. The model for team-Elo handicaps. <span class="feeds">11</span></p></div></div>
+		<div class="pair"><div class="k">Bradley–Terry <span class="yr">1952</span></div><div class="v"><p>Paired-comparison model behind Elo. Rating players and teams from one result is a two-factor version, unidentifiable when players main one team. <span class="feeds">11</span></p></div></div>
+		<div class="pair"><div class="k">Minimax <span class="yr">von Neumann, 1928</span></div><div class="v"><p>The policy used for every fight in chapter 8, both for the exact expectation and the deterministic line: each side spends its die to maximize its own outcome assuming the other does the same. With rounded hits the game tree is small enough to read at the table. <span class="feeds">08</span></p></div></div>
+		<div class="pair"><div class="k">The 9th Age <span class="yr">2015</span></div><div class="v"><p>The community fork of Warhammer Fantasy after GW killed it; its volunteer committee made the rules longer than the original within three years. The bloat Ork Brain's card cap is meant to prevent. <span class="feeds">11</span></p></div></div>
+		<div class="pair"><div class="k">Lichess <span class="yr">2010</span></div><div class="v"><p>Free, open source, donation-funded for servers only, one founder. The thing chapter two of his dream describes, in the game he left. <span class="feeds">11</span></p></div></div>
+	</div>
+</article>
+
+<article class="chapter" id="c13">
+	<header>
+		<div class="eyebrow"><b>13</b> · every slap in one place, his and mine</div>
+		<h2>The guard</h2>
+	</header>
+	<div class="prose">
+		<p>The office tests hardest what he loves hardest, and then tests itself. First the slaps the sitting gave the dream; then the limits of the measurements that gave them.</p>
+		<ul>
+			<li><strong>The save is backwards as written.</strong> "Minus their save stat" subtracts 5 for a 5+ and 3 for a 3+, so worse armour protects more. He meant successes, 7 minus save. <span class="mono">04</span></li>
+			<li><strong>HIT is invisible.</strong> A 2+ rifle and a 4+ slugga with the same ATK and damage score the same. The Ratling's 2+ rifle is among the deadliest guns in the game and the formula cannot see it. <span class="mono">02 · 04</span></li>
+			<li><strong>A keyword inside the multiply is plus ATK, not plus one.</strong> The gauss blaster nearly one-shots a Marine under the formula as written. After the multiply, plus one has zero bias. <span class="mono">05</span></li>
+			<li><strong>Movement is not a defensive stat</strong> in KT24, and almost everyone has 6", so subtracting it is a flat tuning constant of about six that zeroes every weak gun. <span class="mono">04</span></li>
+			<li><strong>Cover as one more save</strong> is the most destructive rule tested, 320 dead cells of 584. <span class="mono">06</span></li>
+			<li><strong>"Back and forth until die"</strong> deletes the block, the only decision melee has. <span class="mono">08</span></li>
+			<li><strong>A game equal to its average has no swings.</strong> That is the point, and also the loss: the dice gave the underdog a 45 percent chance of something; every scheme gives it a certain little. Whether that is a better game is his to judge; the measurements only say what changes. <span class="mono">03</span></li>
+		</ul>
+		<p>And the limits of the office's own work, which a reader should hold against every number above:</p>
+		<ul>
+			<li><strong>Obscured was not modelled;</strong> his "half damage" is unverified. <span class="mono">06</span></li>
+			<li><strong>Abilities, ploys and equipment are absent</strong>, including the Astartes double-shoot, Hierotek Magnify, and every once-per-battle trick; the roster's raw profiles were the only input. <span class="mono">02</span></li>
+			<li><strong>Blast and Torrent were scored as a single target;</strong> their real worth is in the extra targets. Hot's self-damage was ignored. <span class="mono">05</span></li>
+			<li><strong>Ceaseless and Relentless are closed-form approximations</strong> of a re-roll choice; Balanced and Accurate never appear in these seven teams and are unhandled. <span class="mono">05</span></li>
+			<li><strong>Eight defenders</strong> stood for the whole game; the roster of attackers was complete for the seven teams and nothing else. <span class="mono">04</span></li>
+			<li><strong>Rounding to nearest</strong> was the office's convention in every scheme; a rule that rounds down changes the whole-hit rung's bias. <span class="mono">04</span></li>
+			<li><strong>The melee policy is the office's minimax</strong> with its own utility, a kill worth a thousand and wounds the tiebreak; real players block and strike by other lights. <span class="mono">08</span></li>
+			<li><strong>STK match compares two models,</strong> the scheme against the rounded expectation; neither is a real game, where a 4.2-damage gun kills a 14-wound Marine in three shots on some tables and five on others. <span class="mono">04</span></li>
+			<li><strong>The prior art is from memory</strong> except KTDash and the Armageddon box, which were checked on the day. <span class="mono">12</span></li>
+		</ul>
+	</div>
+</article>
+
+<footer class="colophon" id="colophon">
+	<div class="eyebrow">colophon · the capture ledger</div>
+	<h2>What this is, who drew it, where the rest went</h2>
+	<div class="prose">
+		<p>Drawn by <strong>mentat-09</strong>, Fable 5.1 at max effort, summoned 2026-09-19 with the office's interactive summons and a three-chapter dream deliberated for days. He meditated at the Swordmaster's word while the office read his drive; the map came back as twenty-four branches; he narrowed it to the mechanics, and the second turn ran the exact KT24 shoot and fight expectations against candidate integer schemes on his own <span class="mono">kt24.json</span>. He asked what MAE and dead cells meant, and for this Radiant. <strong>The Radiant is open</strong>; it seals at his word (hard law 2).</p>
+	</div>
+	<div class="note">
+		<div class="k">The summons, verbatim — the three chapters of the dream follow it in his prompt</div>
+		<p class="mono" style="font-family:var(--mono); white-space:pre-wrap; color:var(--ink-soft)">You are the Mentat at fable-max.
+Enter by the door — read ~/code/agents/canon/GUILD.md,
+wear ~/code/agents/canon/mantles/mentat.md,
+and think with me...
+
+[…] I want to just explore dream space. Possible branches of the future. […] I just want to explore one. […] Be Futuristic and Deliberative and Ideation with me. Do no activate.</p>
+	</div>
+	<div class="table-wrap wide"><table class="prosey ledger">
+		<thead><tr><th>Captured</th><th>Where</th><th>State</th></tr></thead>
+		<tbody>
+			<tr><td class="k">The book's entry</td><td><span class="mono">~/code/agents/SAPHO.md</span> — the mentat-09 entry, opened while he meditated (<span class="mono">ea8d161</span>); the coda and the shelf line are written at the close</td><td>opened</td></tr>
+			<tr><td class="k">This page and its data</td><td><span class="mono">radiant/002-ork-brain/index.html</span> · <span class="mono">data/kt.py</span> the engine, <span class="mono">shoot.py</span>, <span class="mono">fight.py</span>, <span class="mono">log.py</span> and their outputs; published privately as the glass — the URL rides <span class="mono">radiant/LEDGER.md</span> and this row: <a href="https://claude.ai/artifact/GprcRDxrE7kVHLsN3LT8Ux">https://claude.ai/artifact/GprcRDxrE7kVHLsN3LT8Ux</a></td><td>open</td></tr>
+			<tr><td class="k">The index</td><td><span class="mono">radiant/MAP.md</span> §8, row 002</td><td>written</td></tr>
+			<tr><td class="k">Nothing filed elsewhere</td><td>No inbox entry, no charge, no summons: he asked for dream-space and the office built nothing. The mechanics stay his; a game repo does not exist and this sitting did not propose one.</td><td>by design</td></tr>
+			<tr><td class="k">The close</td><td>pending his word</td><td>open</td></tr>
+		</tbody>
+	</table></div>
+	<div class="prose small">
+		<p><strong>The making.</strong> Felikai carried from Radiant 001's inline copy of hexwright's canon (2026-09-04); the canon file has been reformatted since and its values were not re-diffed this sitting, a drift noted rather than resolved. Type per the glass law, Iosevka Felix for the titled, numbered, labeled and tabled, Inter for prose. Chart hues green-500 against orange-400 and the felix green against grey-600, on the black ground. Every figure is hand-drawn SVG in the page; every number in it is reproducible from <span class="mono">data/</span> against the files named there. Nothing loads from anywhere but Google Fonts.</p>
+		<p>Two readers, three depths: the head is the one page; chapters 2 to 8 are the journey in the order the sitting ran it; the rabbit holes are the hundred. A Mentat booting cold reads the head, chapter 10 and the guard, and knows what the sitting knew.</p>
+	</div>
+	<div class="mark" style="margin-top: 12px;">— mentat-09 · the ork-brain window · lips stained, nothing built <span class="stain">🔴</span></div>
+</footer>
+</main>
+</div>
+<script>
+(function () {
+	var tip = document.createElement('div');
+	tip.className = 'tip';
+	tip.hidden = true;
+	document.body.appendChild(tip);
+	function place(x, y) {
+		var r = tip.getBoundingClientRect();
+		var left = x + 14, top = y + 14;
+		if (left + r.width > window.innerWidth - 8) left = x - r.width - 14;
+		if (top + r.height > window.innerHeight - 8) top = y - r.height - 14;
+		tip.style.left = Math.max(8, left) + 'px';
+		tip.style.top = Math.max(8, top) + 'px';
+	}
+	function show(el, x, y) { tip.textContent = el.getAttribute('data-tip'); tip.hidden = false; place(x, y); }
+	function hide() { tip.hidden = true; }
+	var marks = document.querySelectorAll('[data-tip]');
+	for (var i = 0; i < marks.length; i++) {
+		(function (el) {
+			el.addEventListener('mouseenter', function (e) { show(el, e.clientX, e.clientY); });
+			el.addEventListener('mousemove', function (e) { place(e.clientX, e.clientY); });
+			el.addEventListener('mouseleave', hide);
+			el.addEventListener('focus', function () { var b = el.getBoundingClientRect(); show(el, b.left + b.width / 2, b.top - 8); });
+			el.addEventListener('blur', hide);
+		})(marks[i]);
+	}
+})();
+</script>

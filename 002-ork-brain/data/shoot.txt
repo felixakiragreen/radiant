@@ -1,0 +1,136 @@
+## weapon space
+profiles 73 ATK {4: 50, 5: 11, 6: 12} HIT {3: 48, 2: 8, 4: 13, 5: 4}
+normal dmg {1: 4, 2: 7, 3: 32, 4: 26, 5: 3, 6: 1} crit dmg {0: 1, 1: 1, 2: 3, 3: 17, 4: 24, 5: 27}
+saves, 7 teams {3: 20, 4: 23, 5: 14}
+
+## T1 reference matrix: exact expected damage, one shot, open [cover]
+weapon	Intercessor 3+/14	Hvy Intercessor 3+/18	Immortal 3+/10	Plasmacyte 5+/5	Kommando 5+/10	Breaka 4+/12	Corsair 4+/8	Scorpion 3+/8	rules
+Bolt Rifle 4/3+/3/4	4.2 [3.5]	4.2 [3.5]	4.2 [3.5]	6.2 [4.6]	6.2 [4.6]	5.2 [4.0]	5.2 [4.0]	4.2 [3.5]	PrcCrit1
+Stalker Bolt Rifle [Heavy] 4/3+/3/5	6.5 [5.9]	6.5 [5.9]	6.5 [5.9]	8.2 [6.9]	8.2 [6.9]	7.3 [6.4]	7.3 [6.4]	6.5 [5.9]	Hvy(Dash), Lethal 5+, PrcCrit1
+Heavy Bolter [Focused] 5/3+/4/5	8.0 [7.0]	8.0 [7.0]	8.0 [7.0]	10.9 [8.5]	10.9 [8.5]	9.4 [7.7]	9.4 [7.7]	8.0 [7.0]	PrcCrit1
+Plasma Pistol [Supercharge] 4/3+/4/5	7.3 [6.6]	7.3 [6.6]	7.3 [6.6]	9.4 [7.5]	9.4 [7.5]	8.4 [7.1]	8.4 [7.1]	7.3 [6.6]	Rng 8", Hot, Lethal 5+, Prc1
+Gauss Blaster 4/3+/4/5	6.3 [5.3]	6.3 [5.3]	6.3 [5.3]	8.6 [6.4]	8.6 [6.4]	7.5 [5.8]	7.5 [5.8]	6.3 [5.3]	Prc1
+Tesla Carbine 5/3+/3/3	5.4 [4.7]	5.4 [4.7]	5.4 [4.7]	8.0 [6.2]	8.0 [6.2]	6.6 [5.4]	6.6 [5.4]	5.4 [4.7]	2" Dev1
+Synaptic Disintegrator 4/2+/4/3	9.4 [8.3]	9.4 [8.3]	9.4 [8.3]	11.9 [9.4]	11.9 [9.4]	10.6 [8.8]	10.6 [8.8]	9.4 [8.3]	Dev2, Hvy(Dash), Prc1, Severe
+Slugga 4/4+/3/4	2.2 [1.7]	2.2 [1.7]	2.2 [1.7]	4.0 [2.8]	4.0 [2.8]	3.1 [2.2]	3.1 [2.2]	2.2 [1.7]	Rng 8"
+Dakka Shoota [Long Range] 5/4+/3/4	3.3 [2.8]	3.3 [2.8]	3.3 [2.8]	5.4 [4.0]	5.4 [4.0]	4.3 [3.4]	4.3 [3.4]	3.3 [2.8]	
+Rokkit Launcha [Mobile] 6/4+/4/5	5.9 [5.1]	5.9 [5.1]	5.9 [5.1]	9.0 [6.9]	9.0 [6.9]	7.4 [6.0]	7.4 [6.0]	5.9 [5.1]	Blast 1"
+Burna [Standard] 4/2+/3/3	4.4 [4.4]	4.4 [4.4]	4.4 [4.4]	7.1 [7.1]	7.1 [7.1]	5.7 [5.7]	5.7 [5.7]	4.4 [4.4]	Rng 8", Sat, Tor 2"
+Rokkit Launcha 6/5+/4/5	3.5 [3.0]	3.5 [3.0]	3.5 [3.0]	5.8 [4.4]	5.8 [4.4]	4.6 [3.7]	4.6 [3.7]	3.5 [3.0]	Blast 1"
+Shuriken Rifle 4/3+/3/4	4.1 [3.6]	4.1 [3.6]	4.1 [3.6]	6.3 [5.0]	6.3 [5.0]	5.2 [4.3]	5.2 [4.3]	4.1 [3.6]	Rnd
+Blaster 4/3+/4/5	8.7 [7.6]	8.7 [7.6]	8.7 [7.6]	10.0 [7.6]	10.0 [7.6]	9.3 [7.6]	9.3 [7.6]	8.7 [7.6]	Prc2
+Fusion Pistol 4/3+/5/3	10.8 [9.3]	10.8 [9.3]	10.8 [9.3]	12.4 [9.3]	12.4 [9.3]	11.6 [9.3]	11.6 [9.3]	10.8 [9.3]	Rng 3", Dev3, Prc2
+Twin Shuriken Catapult 4/3+/3/4	5.3 [4.7]	5.3 [4.7]	5.3 [4.7]	7.7 [6.2]	7.7 [6.2]	6.5 [5.4]	6.5 [5.4]	5.3 [4.7]	Ceaseless, Rnd
+Neuro Disruptor 4/3+/4/5	6.3 [5.3]	6.3 [5.3]	6.3 [5.3]	8.6 [6.4]	8.6 [6.4]	7.5 [5.8]	7.5 [5.8]	6.3 [5.3]	Rng 8", Prc1, Stun
+
+## T2 keyword worth: mean delta expected damage, weapon with vs without the keyword, over 3+/4+/5+ defenders in the open
+keyword	n	vs3+	vs4+	vs5+	mean	in_hits
+Relentless	1	4.37	4.80	5.23	4.80	1.20
+Devx	8	2.20	2.20	2.20	2.20	0.77
+Prcx	16	2.68	2.20	1.60	2.16	0.54
+Dev x	2	1.67	1.67	1.67	1.67	0.56
+Ceaseless	5	1.27	1.40	1.51	1.39	0.40
+Sat	5	0.68	1.12	1.58	1.13	0.42
+PrcCritx	5	1.19	0.96	0.71	0.95	0.28
+Rnd	15	0.90	0.81	0.68	0.80	0.27
+Lethal x+	5	0.91	0.80	0.66	0.79	0.27
+Severe	3	0.44	0.42	0.40	0.42	0.28
+
+## the dice as numbers
+ATK4 E[hits] 2+=3.33 3+=2.67 4+=2.00 5+=1.33   half-hits rounded 2+=7 3+=5 4+=4 5+=3   whole rounded 2+=3 3+=3 4+=2 5+=1
+ATK5 E[hits] 2+=4.17 3+=3.33 4+=2.50 5+=1.67   half-hits rounded 2+=8 3+=7 4+=5 5+=3   whole rounded 2+=4 3+=3 4+=3 5+=2
+ATK6 E[hits] 2+=5.00 3+=4.00 4+=3.00 5+=2.00   half-hits rounded 2+=10 3+=8 4+=6 5+=4   whole rounded 2+=5 3+=4 4+=3 5+=2
+E[saves] 3 dice: 2+=2.50 3+=2.00 4+=1.50 5+=1.00 6+=0.50 | in cover: 2+=2.67 3+=2.33 4+=2.00 5+=1.67 6+=1.33
+E[crits]=ATK/6, Lethal 5+: ATK/3; E[crit saves]=0.5
+
+## T3 ladder · 73 profiles x 8 defenders · OPEN
+scheme	arithmetic	MAE	bias	max	dead_cells	STK_match
+card row: printed rounded expectation	read a cell	0.27	-0.06	0.5	0	89%
+half-hit units, floor, two-tier keywords	subtract, multiply, halve	1.04	-0.41	8.9	0	67%
+ratio: hits x dmg x (save−1)/6	multiply by a fraction	0.86	-0.31	4.9	0	71%
+whole hits, floor, two-tier keywords	subtract, multiply, add	1.43	+0.64	5.9	0	53%
+Felix corrected: Dn x (H−S) + crit, +1 per keyword after	subtract, multiply, add	1.58	+0.00	7.9	32	54%
+whole hits, no floor, no keywords	subtract, multiply	1.75	-0.90	9.9	36	54%
+as written, save read as successes, minus move	as written	10.18	+10.08	31.1	0	23%
+
+## T3 ladder · 73 profiles x 8 defenders · COVER
+scheme	arithmetic	MAE	bias	max	dead_cells	STK_match
+card row: printed rounded expectation	read a cell	0.25	+0.02	0.5	0	79%
+half-hit units, floor, two-tier keywords	subtract, multiply, halve	1.04	-0.48	7.0	0	57%
+ratio: hits x dmg x (save−1)/6	multiply by a fraction	1.31	-0.93	5.0	0	47%
+whole hits, floor, two-tier keywords	subtract, multiply, add	1.37	-0.34	6.0	4	45%
+Felix corrected: Dn x (H−S) + crit, +1 per keyword after	subtract, multiply, add	3.09	-2.87	11.0	320	27%
+whole hits, no floor, no keywords	subtract, multiply	3.39	-3.31	11.0	324	23%
+as written, save read as successes, minus move	as written	11.14	+11.09	31.8	0	12%
+
+## T4 cover rules under the whole-hit scheme (floor, two-tier keywords)
+rule	MAE	bias	dead_cells	STK_match
++1 save	3.04	-2.70	320	28%
+−1 dmg	1.49	+0.66	0	43%
+−2 dmg	1.37	-0.34	4	45%
+−half a hit	1.46	-0.15	0	43%
+−one hit	2.00	-1.61	16	34%
+
+## T5 per-faction distortion, OPEN: mean signed error (scheme − exact); rows attacker faction, cols defender
+[half-hit units, floor, two-tier keywords]
+faction	Intercessor 3+/14	Hvy Intercessor 3+/18	Immortal 3+/10	Plasmacyte 5+/5	Kommando 5+/10	Breaka 4+/12	Corsair 4+/8	Scorpion 3+/8	all
+Angels Of Death	-0.3	-0.3	-0.3	+1.0	+1.0	+0.4	+0.4	-0.3	+0.2
+Hierotek Circle	-0.2	-0.2	-0.2	+0.6	+0.6	+0.2	+0.2	-0.2	+0.1
+Kommandos	-0.3	-0.3	-0.3	+0.4	+0.4	+0.0	+0.0	-0.3	-0.1
+Wrecka Krew	-1.1	-1.1	-1.1	-1.0	-1.0	-1.6	-1.6	-1.1	-1.2
+Corsair Voidscarred	-1.8	-1.8	-1.8	-0.3	-0.3	-1.0	-1.0	-1.8	-1.2
+Void-Dancer Troupe	-1.4	-1.4	-1.4	-0.2	-0.2	-0.8	-0.8	-1.4	-0.9
+Blades Of Khaine	-0.3	-0.3	-0.3	+0.1	+0.1	-0.3	-0.3	-0.3	-0.2
+[whole hits, floor, two-tier keywords]
+faction	Intercessor 3+/14	Hvy Intercessor 3+/18	Immortal 3+/10	Plasmacyte 5+/5	Kommando 5+/10	Breaka 4+/12	Corsair 4+/8	Scorpion 3+/8	all
+Angels Of Death	+0.6	+0.6	+0.6	+1.5	+1.5	+2.6	+2.6	+0.6	+1.3
+Hierotek Circle	-0.0	-0.0	-0.0	+0.7	+0.7	+1.8	+1.8	-0.0	+0.6
+Kommandos	-0.3	-0.3	-0.3	+0.0	+0.0	+1.3	+1.3	-0.3	+0.1
+Wrecka Krew	+0.0	+0.0	+0.0	-1.0	-1.0	+0.4	+0.4	+0.0	-0.2
+Corsair Voidscarred	-0.5	-0.5	-0.5	+0.8	+0.8	+1.9	+1.9	-0.5	+0.5
+Void-Dancer Troupe	-0.4	-0.4	-0.4	+1.0	+1.0	+2.1	+2.1	-0.4	+0.6
+Blades Of Khaine	+1.1	+1.1	+1.1	+1.3	+1.3	+2.3	+2.3	+1.1	+1.5
+[Felix corrected: Dn x (H−S) + crit, +1 per keyword after]
+faction	Intercessor 3+/14	Hvy Intercessor 3+/18	Immortal 3+/10	Plasmacyte 5+/5	Kommando 5+/10	Breaka 4+/12	Corsair 4+/8	Scorpion 3+/8	all
+Angels Of Death	+0.1	+0.1	+0.1	+1.0	+1.0	+2.2	+2.2	+0.1	+0.9
+Hierotek Circle	-1.7	-1.7	-1.7	-0.1	-0.1	+1.0	+1.0	-1.7	-0.6
+Kommandos	-0.7	-0.7	-0.7	-0.1	-0.1	+1.2	+1.2	-0.7	-0.1
+Wrecka Krew	-3.1	-3.1	-3.1	-1.2	-1.2	+0.2	+0.2	-3.1	-1.8
+Corsair Voidscarred	-0.9	-0.9	-0.9	+0.4	+0.4	+1.5	+1.5	-0.9	+0.1
+Void-Dancer Troupe	-0.9	-0.9	-0.9	+0.5	+0.5	+1.6	+1.6	-0.9	+0.1
+Blades Of Khaine	-0.1	-0.1	-0.1	+1.3	+1.3	+2.3	+2.3	-0.1	+0.9
+
+## T6 four factions: exact damage → shots to kill · card row STK · whole-hit scheme damage → STK
+attacker	Intercessor 3+/14	Immortal 3+/10	Kommando 5+/10	Corsair 4+/8
+Marine bolt rifle	4.2→4 | row 4 | f 6→3	4.2→3 | row 3 | f 6→2	6.2→2 | row 2 | f 9→2	5.2→2 | row 2 | f 9→1
+Necron gauss blaster	6.3→3 | row 3 | f 7→2	6.3→2 | row 2 | f 7→2	8.6→2 | row 2 | f 11→1	7.5→2 | row 2 | f 11→1
+Ork slugga	2.2→7 | row 7 | f 4→4	2.2→5 | row 5 | f 4→3	4.0→3 | row 3 | f 4→3	3.1→3 | row 3 | f 4→2
+Ork rokkit 6/4+	5.9→3 | row 3 | f 5→3	5.9→2 | row 2 | f 5→2	9.0→2 | row 2 | f 9→2	7.4→2 | row 2 | f 9→1
+Aeldari shuriken rifle	4.1→4 | row 4 | f 5→3	4.1→3 | row 3 | f 5→2	6.3→2 | row 2 | f 8→2	5.2→2 | row 2 | f 8→1
+Aeldari blaster Prc2	8.7→2 | row 2 | f 7→2	8.7→2 | row 2 | f 7→2	10.0→2 | row 1 | f 11→1	9.3→1 | row 1 | f 11→1
+
+## Jensen: slugga 4/4+/3/4 into a 3+ save, the distribution of damage per shot
+dmg 0	P 0.546
+dmg 3	P 0.180
+dmg 4	P 0.121
+dmg 6	P 0.040
+dmg 7	P 0.054
+dmg 8	P 0.030
+dmg 9	P 0.007
+dmg 10	P 0.009
+dmg 11	P 0.007
+dmg 12	P 0.004
+dmg 13	P 0.001
+dmg 14	P 0.001
+dmg 15	P 0.000
+dmg 16	P 0.000
+E[hits]=2.00 E[saves]=2.00 → subtractive says 0; E[damage] = 2.18 P(zero) = 0.55
+
+## T7 his second formula, sent mid-build: (ATK x damage) − HIT, and variants · OPEN
+(ATK x dmg) − HIT	MAE 5.59	bias +5.49	dead 0	STK 24%
+(ATK x dmg) − HIT − (7−save)	MAE 3.07	bias +2.35	dead 36	STK 41%
+((ATK x dmg) − HIT) / 2	MAE 1.73	bias -0.53	dead 24	STK 54%
+((ATK x dmg) − HIT) / 3	MAE 2.48	bias -2.26	dead 24	STK 26%
+vs 3+: formula mean 11.6 · truth 5.3
+vs 4+: formula mean 11.6 · truth 6.4
+vs 5+: formula mean 11.6 · truth 7.5

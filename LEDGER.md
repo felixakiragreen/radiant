@@ -27,3 +27,18 @@ added to `CLAUDE.md`; the colophon carries the close and the anti-recipe's evide
 snag list built into stigmergon; the co-design sitting he tuned in DevTools). `ISSUES.md`
 holds his wish: the Radiant read aloud. Decided: D1–D5 blessed. Next: none — the building
 rests until a sitting earns a map; the register line waits on the Grand Architect's sweep.
+
+---
+
+**2026-09-19 · Mentat · fable-max (mentat-09)** — **Radiant 002 drawn and published, open:**
+<https://claude.ai/artifact/GprcRDxrE7kVHLsN3LT8Ux> — thirteen chapters; every number from
+`002-ork-brain/data/` (`kt.py` the exact KT24 shoot and fight engine over his `kt24.json`,
+`shoot.py`, `fight.py`, `log.py` and their outputs); felikai carried from 001's inline copy, the
+canon's later reformatting noted in the colophon as drift. The sitting: his Ork Brain Kill Team
+dream, fenced *do not activate*, narrowed by his word to the mechanics — the dice as numbers, the
+convexity gap and its dead cells, a ladder of seven schemes scored on 584 cells (MAE, dead cells,
+shots-to-kill), keywords weighed, cover, four factions, melee with the block kept; his mid-build
+formula (ATK × damage − HIT) scored and folded in; his lean, *a printed rounded expectation might
+be best*, recorded. Decided: nothing — voice, not law; nothing filed beyond the book and this
+building. Next: the Radiant seals at his word (hard law 2); the book's coda and shelf line at the
+close. A cold Mentat booting from §8 and 002's head: two minutes, as the class requires.
